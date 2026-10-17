@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خودشناسی | Self Insight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --indigo:#2E2A63; --indigo-2:#241F52; --gold:#C9A15E; --teal:#2F8F82; --rose:#C7627A;
+  --lav-50:#FAF9FE; --lav-100:#F1EFFB; --lav-200:#E4E0F6; --ink:#221F3D; --ink-60:#5C5A78;
+  --white:#FFFFFF; --danger:#C4483F; --ok:#2F8F5E;
+  --dim-r:#C4483F; --dim-b:#433DAE; --dim-y:#B8873F; --dim-w:#217A6E;
+  --r-sm:10px; --r-md:16px; --r-lg:24px; --r-xl:32px;
+  --shadow-1: 0 1px 2px rgba(34,31,61,.06), 0 8px 24px rgba(34,31,61,.08);
+  --shadow-2: 0 4px 12px rgba(34,31,61,.10), 0 20px 48px rgba(34,31,61,.14);
+  --font-fa:'Vazirmatn',sans-serif; --font-en:'Inter',sans-serif;
+}
+:root[data-theme="dark"]{
+  --indigo:#5457B0; --indigo-2:#7B7EE8; --gold:#E0BD7E; --teal:#45C2B1; --rose:#E08BA3;
+  --lav-50:#0C0E27; --lav-100:#141833; --lav-200:#262B54; --ink:#EDEDFA; --ink-60:#B7BAE0;
+  --white:#161A3E; --danger:#E88079; --ok:#5FD79B;
+  --dim-r:#F0897F; --dim-b:#9A9DF2; --dim-y:#EFC989; --dim-w:#5FD1C0;
+  --shadow-1: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  --shadow-2: 0 4px 16px rgba(0,0,0,.4), 0 24px 56px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;min-height:100vh;}
+body{
+  background:radial-gradient(1200px 800px at 15% -10%, #EDE9FB 0%, transparent 60%),
+             radial-gradient(1000px 700px at 110% 10%, #E8F3F0 0%, transparent 55%),
+             var(--lav-50);
+  color:var(--ink); font-family:var(--font-fa); -webkit-font-smoothing:antialiased;
+  min-height:100vh; display:flex; flex-direction:column; transition:background-color .3s,color .3s;
+}
+:root[data-theme="dark"] body{
+  background:radial-gradient(1200px 800px at 15% -10%, rgba(84,87,176,.28) 0%, transparent 60%),
+             radial-gradient(1000px 700px at 110% 10%, rgba(69,194,177,.20) 0%, transparent 55%),
+             var(--lav-50);
+}
+body.lang-en{font-family:var(--font-en);}
+::selection{background:var(--gold); color:var(--indigo-2);}
+a{color:inherit;}
+button{font-family:inherit;}
+.hidden{display:none !important;}
+svg.ic{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto;}
+
+/* ---------- shell ---------- */
+.topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 24px; position:sticky; top:0; z-index:40;
+  background:rgba(250,249,254,.75); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(34,31,61,.06); transition:.3s;
+}
+:root[data-theme="dark"] .topbar{ background:rgba(12,14,39,.72); border-bottom-color:rgba(255,255,255,.06); }
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:18px; color:var(--indigo-2);}
+.brand .mark{width:30px;height:30px;border-radius:9px;background:conic-gradient(from 220deg,var(--indigo),var(--teal),var(--gold),var(--rose),var(--indigo));}
+.topbar-actions{display:flex;gap:8px;align-items:center;}
+.chip-btn{
+  border:1px solid var(--lav-200); background:var(--white); color:var(--ink);
+  padding:8px 14px; border-radius:999px; font-size:13px; font-weight:600; cursor:pointer;
+  transition:.15s; display:flex; gap:6px; align-items:center;
+}
+.chip-btn:hover{border-color:var(--gold); color:var(--indigo-2);}
+.chip-btn.active{background:var(--indigo); color:#fff; border-color:var(--indigo);}
+.icon-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--lav-200); background:var(--white); color:var(--ink-60); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:.15s;}
+.icon-btn:hover{border-color:var(--gold); color:var(--indigo-2);}
+
+main{flex:1; display:flex; justify-content:center; padding:32px 16px 40px;}
+.screen{width:100%; max-width:520px; animation:rise .45s cubic-bezier(.2,.8,.2,1);}
+.screen.wide{max-width:880px;}
+@keyframes rise{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);}}
+@media (prefers-reduced-motion: reduce){ *{animation-duration:.001s !important; transition-duration:.001s !important;} }
+
+.card{
+  background:rgba(255,255,255,.82); border:1px solid rgba(255,255,255,.6);
+  border-radius:var(--r-xl); padding:32px; box-shadow:var(--shadow-1);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); transition:background-color .3s, border-color .3s;
+}
+:root[data-theme="dark"] .card{ background:rgba(22,26,62,.78); border-color:rgba(255,255,255,.08); }
+h1{font-size:26px; margin:0 0 6px; font-weight:800; color:var(--indigo-2); line-height:1.4;}
+h2{font-size:20px; margin:0 0 4px; font-weight:800; color:var(--indigo-2); display:flex; align-items:center; gap:8px;}
+p.sub{color:var(--ink-60); margin:0 0 24px; font-size:14.5px; line-height:1.9;}
+label{display:block; font-size:13px; font-weight:600; color:var(--ink-60); margin:0 0 6px;}
+.field{margin-bottom:16px;}
+input[type=text],input[type=tel],input[type=password],input[type=number],select{
+  width:100%; padding:12px 14px; border-radius:var(--r-sm); border:1.5px solid var(--lav-200);
+  background:var(--white); font-family:inherit; font-size:14.5px; color:var(--ink); transition:.15s;
+}
+input:focus,select:focus{outline:none; border-color:var(--teal); box-shadow:0 0 0 4px rgba(47,143,130,.12);}
+.err{color:var(--danger); font-size:12.5px; margin-top:5px; display:none;}
+.field.has-err input{border-color:var(--danger);}
+.field.has-err .err{display:block;}
+.row2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.btn{
+  width:100%; padding:13px 18px; border-radius:999px; border:none; cursor:pointer;
+  font-weight:700; font-size:15px; transition:.15s; display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.btn-primary{background:linear-gradient(135deg,var(--indigo),var(--indigo-2)); color:#fff; box-shadow:0 8px 20px rgba(46,42,99,.28);}
+.btn-primary:hover{transform:translateY(-1px); box-shadow:0 10px 24px rgba(46,42,99,.34);}
+.btn-primary:disabled{opacity:.45; cursor:not-allowed; transform:none;}
+.btn-ghost{background:transparent; color:var(--indigo-2); border:1.5px solid var(--lav-200);}
+.btn-ghost:hover{border-color:var(--gold);}
+.btn-danger{background:transparent; color:var(--danger); border:1.5px solid var(--danger);}
+.btn-link{background:none;border:none;color:var(--teal);font-weight:700;cursor:pointer;font-size:13.5px;padding:0;}
+.foot-link{text-align:center; margin-top:18px; font-size:13.5px; color:var(--ink-60);}
+.btn-row{display:flex; gap:10px;}
+.btn-row .btn{flex:1;}
+
+/* password */
+.pw-wrap{position:relative;}
+.pw-wrap input{padding-inline-end:44px;}
+.pw-eye{position:absolute; inset-inline-end:6px; top:50%; transform:translateY(-50%); background:none;border:none;cursor:pointer;color:var(--ink-60); width:32px;height:32px;border-radius:50%; display:flex;align-items:center;justify-content:center;}
+.pw-eye:hover{color:var(--indigo-2); background:var(--lav-100);}
+.pw-strength-track{height:5px;border-radius:999px;background:var(--lav-200);margin-top:9px;overflow:hidden;}
+.pw-strength-fill{height:100%;width:0%;border-radius:999px;transition:width .4s cubic-bezier(.3,.8,.3,1), background-color .4s;}
+.pw-strength-label{font-size:11.5px;margin-top:5px;font-weight:700;transition:color .3s; min-height:14px;}
+
+/* otp */
+.otp-boxes{display:flex; gap:10px; justify-content:center; margin:20px 0;}
+.otp-boxes input{width:46px; height:56px; text-align:center; font-size:22px; font-weight:700;}
+.otp-boxes.shake{animation:shakeX .5s;}
+.otp-boxes.error input{border-color:var(--danger); box-shadow:0 0 0 4px rgba(196,72,63,.18);}
+@keyframes shakeX{10%,90%{transform:translateX(-2px);}20%,80%{transform:translateX(4px);}30%,50%,70%{transform:translateX(-8px);}40%,60%{transform:translateX(8px);}}
+.otp-hint{background:var(--lav-100); border:1px dashed var(--lav-200); border-radius:var(--r-sm); padding:12px 14px; font-size:13px; color:var(--ink-60); text-align:center; margin-bottom:18px;}
+.otp-hint b{color:var(--indigo-2); letter-spacing:2px; font-size:16px;}
+.otp-check-row{display:flex; align-items:center; justify-content:center; gap:6px; font-size:12.5px; color:var(--ink-60); min-height:18px; margin-top:4px;}
+.otp-check-row.ok{color:var(--ok); font-weight:700;}
+
+/* dashboard */
+.stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0;}
+.stat{background:var(--white); border:1px solid var(--lav-200); border-radius:var(--r-md); padding:16px; text-align:center;}
+.stat .num{font-size:22px; font-weight:800; color:var(--indigo-2);}
+.stat .lbl{font-size:12px; color:var(--ink-60); margin-top:2px;}
+.progress-outer{height:10px; background:var(--lav-200); border-radius:999px; overflow:hidden; margin:8px 0 4px;}
+.progress-inner{height:100%; border-radius:999px; background:linear-gradient(90deg,var(--indigo),var(--teal)); transition:width .4s;}
+.attempt-row{display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-top:1px solid var(--lav-200); font-size:13.5px;}
+.badge{padding:3px 10px; border-radius:999px; font-size:11.5px; font-weight:700;}
+.badge.done{background:#E7F6EE; color:var(--ok);}
+.badge.progress{background:#FDF3E3; color:#A9781F;}
+:root[data-theme="dark"] .badge.done{background:rgba(95,215,155,.14);}
+:root[data-theme="dark"] .badge.progress{background:rgba(224,189,126,.14);}
+
+/* test screen */
+.thread-wrap{position:relative; height:34px; margin-bottom:22px;}
+.thread-wrap svg{width:100%; height:100%; display:block;}
+.q-meta{display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:12.5px; color:var(--ink-60); font-weight:600;}
+.q-section-tag{color:var(--teal); font-weight:700;}
+.q-stem{font-size:13.5px; color:var(--ink-60); margin-bottom:6px;}
+.q-title{font-size:20px; font-weight:800; color:var(--indigo-2); margin:0 0 22px; line-height:1.6;}
+.opt{
+  width:100%; text-align:inherit; background:var(--white); border:1.6px solid var(--lav-200);
+  border-radius:var(--r-md); padding:15px 18px; margin-bottom:12px; cursor:pointer; font-size:14.5px;
+  display:flex; align-items:center; gap:12px; transition:.15s; font-family:inherit; color:var(--ink);
+}
+.opt:hover{border-color:var(--gold); background:var(--lav-100);}
+.opt .dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--lav-200); flex:0 0 auto; transition:.15s; position:relative;}
+.opt.selected{border-color:var(--indigo); background:linear-gradient(0deg,rgba(46,42,99,.05),rgba(46,42,99,.05)),var(--white); box-shadow:0 6px 16px rgba(46,42,99,.14);}
+.opt.selected .dot{border-color:var(--indigo); background:var(--indigo);}
+.opt.selected .dot::after{content:'';position:absolute; inset:5px; border-radius:50%; background:#fff;}
+.opt .en{color:var(--ink-60); font-size:12px; font-family:var(--font-en);}
+.opt.pulse{animation:optPulse .48s ease-out;}
+@keyframes optPulse{0%{box-shadow:0 0 0 0 rgba(46,42,99,.38);}70%{box-shadow:0 0 0 14px rgba(46,42,99,0);}100%{box-shadow:0 0 0 0 rgba(46,42,99,0);}}
+.nav-row{display:flex; gap:10px; margin-top:22px;}
+.nav-row .btn{width:auto; flex:1;}
+.qnav-toggle{display:flex; align-items:center; gap:6px; background:none; border:1px solid var(--lav-200); border-radius:999px; padding:6px 12px; font-size:12px; font-weight:700; color:var(--indigo-2); cursor:pointer; margin-bottom:10px;}
+.qnav-toggle:hover{border-color:var(--gold);}
+.qnav-panel{background:var(--lav-100); border:1px solid var(--lav-200); border-radius:var(--r-md); padding:14px; margin-bottom:16px;}
+.qnav-grid{display:grid; grid-template-columns:repeat(9,1fr); gap:6px;}
+.qnav-item{aspect-ratio:1; border-radius:8px; border:1.5px solid var(--lav-200); background:var(--white); font-size:11.5px; font-weight:700; color:var(--ink-60); cursor:pointer; display:flex; align-items:center; justify-content:center;}
+.qnav-item.answered{background:var(--indigo); color:#fff; border-color:var(--indigo);}
+.qnav-item.current{outline:2px solid var(--gold); outline-offset:1px;}
+.qnav-legend{display:flex; gap:14px; margin-top:10px; font-size:11px; color:var(--ink-60);}
+.qnav-legend span{display:inline-flex; align-items:center; gap:5px;}
+.qnav-legend i{width:10px;height:10px;border-radius:3px; display:inline-block;}
+
+/* users (admin) */
+.user-card{background:var(--white); border:1px solid var(--lav-200); border-radius:var(--r-md); margin-bottom:10px; overflow:hidden;}
+.user-card-head{display:flex; align-items:center; justify-content:space-between; padding:14px 16px; cursor:pointer; gap:10px;}
+.user-card-head:hover{background:var(--lav-100);}
+.user-card-head .name{display:flex; align-items:center; gap:10px; font-weight:700; color:var(--indigo-2); font-size:14px;}
+.avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--indigo),var(--teal)); color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; flex:0 0 auto;}
+.user-card-body{padding:0 16px 16px; border-top:1px solid var(--lav-200);}
+.chevron{transition:.2s; color:var(--ink-60); display:flex;}
+.chevron.open{transform:rotate(180deg);}
+
+/* section transition / processing */
+.center-card{text-align:center;}
+.orb{width:96px; height:96px; margin:0 auto 20px; border-radius:50%;
+  background:conic-gradient(from 0deg,var(--indigo),var(--teal),var(--gold),var(--rose),var(--indigo));
+  animation:spin 3.2s linear infinite; position:relative;}
+.orb::after{content:'';position:absolute; inset:8px; border-radius:50%; background:var(--lav-50);}
+@keyframes spin{to{transform:rotate(360deg);}}
+.check-circle{width:76px;height:76px;border-radius:50%;background:var(--ok); color:#fff; display:flex; align-items:center; justify-content:center; margin:0 auto 18px; animation:popIn .4s cubic-bezier(.3,1.4,.4,1);}
+@keyframes popIn{0%{transform:scale(0);opacity:0;}100%{transform:scale(1);opacity:1;}}
+
+/* results */
+.result-hero{text-align:center; padding:36px 24px 10px;}
+.type-pill{display:inline-block; padding:6px 16px; border-radius:999px; font-size:12.5px; font-weight:700; background:var(--lav-100); color:var(--indigo-2); margin-bottom:10px;}
+.type-name{font-size:30px; font-weight:800; color:var(--indigo-2); margin:4px 0;}
+.dim-bars{margin:22px 0;}
+.dim-row{display:flex; align-items:center; gap:12px; margin-bottom:12px;}
+.dim-label{width:92px; font-size:13px; font-weight:700; flex:0 0 auto;}
+.dim-track{flex:1; height:12px; background:var(--lav-200); border-radius:999px; overflow:hidden;}
+.dim-fill{height:100%; border-radius:999px; transition:width .8s cubic-bezier(.2,.8,.2,1);}
+.dim-pct{width:40px; text-align:end; font-size:12.5px; font-weight:700; color:var(--ink-60); flex:0 0 auto;}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:20px;}
+.info-box{background:var(--white); border:1px solid var(--lav-200); border-radius:var(--r-md); padding:16px;}
+.info-box h3{margin:0 0 8px; font-size:13.5px; color:var(--indigo-2); display:flex; gap:6px; align-items:center;}
+.info-box ul{margin:0; padding-inline-start:18px; font-size:13px; color:var(--ink-60); line-height:1.9;}
+.disclaimer{background:var(--lav-100); border:1px dashed var(--lav-200); border-radius:var(--r-sm); padding:12px 14px; font-size:12px; color:var(--ink-60); margin-top:18px; line-height:1.9;}
+.result-actions{display:flex; gap:10px; margin-top:14px;}
+.result-actions .btn{flex:1;}
+
+/* intro steps */
+.step-list{margin:20px 0;}
+.step{display:flex; gap:14px; padding:14px 0; border-top:1px solid var(--lav-200);}
+.step:first-child{border-top:none;}
+.step .num{width:30px; height:30px; border-radius:50%; background:var(--indigo); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; flex:0 0 auto;}
+.step .txt b{display:block; font-size:14px; color:var(--indigo-2); margin-bottom:2px;}
+.step .txt span{font-size:12.5px; color:var(--ink-60);}
+
+/* admin */
+.admin-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px;}
+.table-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+table{width:100%; border-collapse:collapse; font-size:13px; min-width:520px;}
+th,td{padding:10px 8px; text-align:start; border-bottom:1px solid var(--lav-200);}
+th{color:var(--ink-60); font-weight:700; font-size:12px;}
+
+.dev-note{position:fixed; bottom:14px; inset-inline:14px; max-width:480px; margin:0 auto; background:var(--indigo-2); color:#fff; font-size:12px; padding:10px 14px; border-radius:var(--r-sm); opacity:.94; z-index:60; display:flex; justify-content:space-between; gap:10px; align-items:center;}
+.feature-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+.feature-item{background:var(--white); border:1px solid var(--lav-200); border-radius:var(--r-md); padding:16px; text-align:center;}
+.feature-item .emoji{font-size:26px; margin-bottom:6px;}
+.feature-item .ft{font-weight:800; font-size:13px; color:var(--indigo-2); margin-bottom:4px;}
+.feature-item .fd{font-size:11.5px; color:var(--ink-60); line-height:1.7;}
+@media (max-width:640px){ .feature-grid{grid-template-columns:1fr 1fr;} }
+.dev-note button{background:none;border:none;color:#fff; opacity:.7; cursor:pointer; font-size:14px;}
+
+/* footer */
+.site-footer{text-align:center; padding:10px 16px 26px; font-size:12px; color:var(--ink-60);}
+.site-footer .brandlink{color:var(--indigo-2); cursor:pointer; font-weight:700; border:none; background:none; font-size:12px; font-family:inherit; padding:0;}
+.site-footer .brandlink:hover{text-decoration:underline;}
+.site-footer .adminlink{display:block; margin-top:6px; color:var(--ink-60); background:none; border:none; font-size:11.5px; cursor:pointer; font-family:inherit; text-decoration:underline; opacity:.7;}
+
+/* modal */
+.modal-overlay{position:fixed; inset:0; background:rgba(15,13,35,.55); backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; z-index:100; padding:20px; animation:fadeIn .2s;}
+@keyframes fadeIn{from{opacity:0} to{opacity:1}}
+.modal-box{background:var(--lav-50); border-radius:var(--r-lg); padding:28px; max-width:420px; width:100%; box-shadow:var(--shadow-2); position:relative; border:1px solid var(--lav-200); animation:popIn .25s cubic-bezier(.3,1.2,.4,1);}
+.modal-close{position:absolute; top:12px; inset-inline-end:12px; background:none;border:none;font-size:20px;color:var(--ink-60);cursor:pointer; width:30px;height:30px;border-radius:50%;}
+.modal-close:hover{background:var(--lav-100);}
+.modal-title{font-weight:800; color:var(--indigo-2); font-size:17px; margin:0 0 12px;}
+.modal-text{font-size:13.5px; color:var(--ink-60); line-height:2; margin:0;}
+.modal-links{display:flex; gap:18px; justify-content:center; margin-top:22px;}
+.modal-link{display:flex; flex-direction:column; align-items:center; gap:6px; font-size:11.5px; color:var(--ink-60); text-decoration:none; font-weight:600;}
+.modal-link .ic-circle{width:46px;height:46px;border-radius:50%; display:flex;align-items:center;justify-content:center; color:#fff; transition:.15s;}
+.modal-link:hover .ic-circle{transform:translateY(-2px); box-shadow:0 6px 14px rgba(0,0,0,.2);}
+
+@media (max-width:520px){
+  .row2{grid-template-columns:1fr;} .stat-grid{grid-template-columns:1fr 1fr;} .grid2{grid-template-columns:1fr;}
+  .admin-grid{grid-template-columns:1fr 1fr;} .card{padding:22px;} .result-actions{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand" id="brandBtn" style="cursor:pointer"><div class="mark"></div><span id="brandText">خودشناسی</span></div>
+  <div class="topbar-actions">
+    <button class="icon-btn" id="themeToggle" title="Theme"></button>
+    <button class="chip-btn" id="langToggle" onclick="App.toggleLang()">EN</button>
+    <button class="chip-btn hidden" id="logoutBtn" onclick="App.logout()">خروج</button>
+  </div>
+</div>
+
+<main id="main"></main>
+<div id="footerHost"></div>
+<div id="devNote" class="dev-note hidden"></div>
+<div id="modalHost"></div>
+
+<script>
+/* =========================================================================
+   ICONS — minimal inline SVGs (stroke=currentColor) so they follow theme.
+   ========================================================================= */
+const ICON = {
+  eye:'<svg class="ic" viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>',
+  eyeOff:'<svg class="ic" viewBox="0 0 24 24"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.6 21.6 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a21.6 21.6 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>',
+  sun:'<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+  moon:'<svg class="ic" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>',
+  download:'<svg class="ic" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>',
+  share:'<svg class="ic" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-3.9M8.6 13.5l6.8 3.9"/></svg>',
+  check:'<svg class="ic" viewBox="0 0 24 24" style="width:34px;height:34px;stroke-width:2.5"><path d="M20 6L9 17l-5-5"/></svg>',
+  user:'<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>',
+  users:'<svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.5 3-5.4 6.5-5.4s6.5 1.9 6.5 5.4"/><path d="M16 8.2a3 3 0 1 1 3.6 2.9"/><path d="M21.5 20c0-2.6-1.7-4.3-4-5"/></svg>',
+  lock:'<svg class="ic" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>',
+  shield:'<svg class="ic" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/></svg>',
+  telegram:'<svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:#fff"><path d="M21.9 4.6L18.7 19.9c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L7 12.4l-4.8-1.5c-1-.3-1-1 .2-1.5L20.6 3.5c.9-.3 1.6.2 1.3 1.1z"/></svg>',
+  chat:'<svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4 9 9 0 0 1-3.6-.7L3 20l1-4.5A8.3 8.3 0 0 1 3 11.5 8.4 8.4 0 0 1 11.9 3a8.5 8.5 0 0 1 9.1 8.5z"/></svg>'
+};
+const LOGO_EITAA = 'data:image/png;base64,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';
+const LOGO_BALE = 'data:image/png;base64,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';
+
+/* =========================================================================
+   DATA — extracted from H23.pdf (Persian source; parenthetical English terms
+   from the PDF used verbatim for Section 1). Section 2 (situational, Q31–45)
+   had no English text in the source PDF; the English shown there is an
+   UNOFFICIAL working translation, clearly flagged for the developer.
+   MODEL: closest documented match is the Hartman "Color Code" / Personality
+   Profile framework (R=Power/Red, B=Intimacy-Quality/Blue, Y=Fun/Yellow,
+   W=Peace/White). No official color-key for this exact translated word set
+   is publicly verifiable, so each option's color tag is a DOCUMENTED
+   HEURISTIC mapping, kept in one config array so it can be revised without
+   touching app logic.
+   ========================================================================= */
+const QUESTIONS = [
+{id:1,section:1,opts:[["قدرت‌طلب","power-oriented","R"],["مربی و پرورش‌دهنده","nurturing","B"],["خلاق","inventive","W"],["معاشرتی","outgoing","Y"]]},
+{id:2,section:1,opts:[["بلاتکلیف","indecisive","W"],["متعصب","opinionated","R"],["کمال‌گرا","perfectionist","B"],["خودنما","a show-off","Y"]]},
+{id:3,section:1,opts:[["مشتاق","enthusiastic","Y"],["بردبار","tolerant","W"],["دلسوز","sympathetic","B"],["مسلط","dominant","R"]]},
+{id:4,section:1,opts:[["خودخواه","self-serving","R"],["بدگمان","suspicious","B"],["نامطمئن","unsure","W"],["ساده‌لوح","naive","Y"]]},
+{id:5,section:1,opts:[["راضی","contented","W"],["بازیگوش","playful","Y"],["ثابت‌قدم","decisive","R"],["وفادار","loyal","B"]]},
+{id:6,section:1,opts:[["لجباز آرام","silently stubborn","W"],["مستعد نگرانی","worry-prone","B"],["غیرمسئول","irresponsible","Y"],["متکبر","arrogant","R"]]},
+{id:7,section:1,opts:[["اجتماعی","sociable","Y"],["مدعی","assertive","R"],["قابل اعتماد","reliable","B"],["مهربان","kind","W"]]},
+{id:8,section:1,opts:[["خودانتقادگر","self-critical","B"],["سلطه‌جو","bossy","R"],["ستیزه‌جو","a teaser","Y"],["مخالف","reluctant","W"]]},
+{id:9,section:1,opts:[["آسان‌گیر","easygoing","W"],["بی‌خیال","carefree","Y"],["عمل‌گرا","action-oriented","R"],["تحلیلی","analytical","B"]]},
+{id:10,section:1,opts:[["دیگران‌ منتقد","critical of others","R"],["خجالتی","shy","W"],["بیش از حد حساس","overly sensitive","B"],["من‌فور","obnoxious","Y"]]},
+{id:11,section:1,opts:[["مصمم","determined","R"],["جزئی‌نگر","detail conscious","B"],["خوب شنونده","a good listener","W"],["معاشرتی فرد","a party person","Y"]]},
+{id:12,section:1,opts:[["بی‌انگیزه","unmotivated","W"],["مغرور","vain","Y"],["پرتوقع","demanding","R"],["کینه‌ای","unforgiving","B"]]},
+{id:13,section:1,opts:[["شاد","happy","Y"],["ایده‌آل‌گرا","idealistic","B"],["باملاحظه","considerate","W"],["مسئولیت‌پذیر","responsible","R"]]},
+{id:14,section:1,opts:[["هیجانی","impulsive","Y"],["بی‌حوصله","impatient","R"],["دمدمی‌مزاج","moody","B"],["منفعل","passive","W"]]},
+{id:15,section:1,opts:[["بااراده","strong-willed","R"],["صبور","patient","W"],["خوش‌مشرب","loving-fun","Y"],["محترم","respectful","B"]]},
+{id:16,section:1,opts:[["حسود","jealous","B"],["بی‌هدف","directionless","W"],["اهل جدل","argumentative","R"],["مداخله‌گر","an interrupter","Y"]]},
+{id:17,section:1,opts:[["خوش‌خلق","even-tempered","W"],["متکی","trusting","Y"],["قابل اعتماد","dependable","B"],["مستقل","independent","R"]]},
+{id:18,section:1,opts:[["تهاجمی","aggressive","R"],["اغلب افسرده","frequently depressed","B"],["دودل","ambivalent","W"],["فراموشکار","forgetful","Y"]]},
+{id:19,section:1,opts:[["سنجیده","deliberate","B"],["قدرتمند","powerful","R"],["ملایم","gentle","W"],["خوشبین","optimistic","Y"]]},
+{id:20,section:1,opts:[["بی‌انضباط","undisciplined","Y"],["خسته‌کننده","boring","W"],["بی‌احساس","insensitive","R"],["قضاوت‌گر","judgmental","B"]]},
+{id:21,section:1,opts:[["محبوب","popular","Y"],["موافق/سازگار","agreeable","W"],["عاطفی","emotional","B"],["منطقی","logical","R"]]},
+{id:22,section:1,opts:[["همیشه حق‌به‌جانب","always right","R"],["بی‌تعهد","uncommitted","Y"],["بی‌اشتیاق","unenthusiastic","W"],["مستعد گناه","prone to guilt","B"]]},
+{id:23,section:1,opts:[["پذیرنده","accepting","W"],["بی‌اختیار","spontaneous","Y"],["واقع‌بین","pragmatic","R"],["خوش‌رفتار","well-behaved","B"]]},
+{id:24,section:1,opts:[["خودمحور","self-centered","R"],["خودخواه","selfish","Y"],["ناراضی","unsatisfied","B"],["بی‌علاقه","uninvolved","W"]]},
+{id:25,section:1,opts:[["وظیفه‌گرا","task-oriented","R"],["صادق","sincere","B"],["دیپلماتیک","diplomatic","W"],["سرزنده","lively","Y"]]},
+{id:26,section:1,opts:[["پرسروصدا","loud","Y"],["تنبل","lazy","W"],["سخت‌پسند","hard to please","B"],["بی‌تدبیر","tactless","R"]]},
+{id:27,section:1,opts:[["مستقیم","direct","R"],["خلاق","creative","B"],["سازگار","adaptable","W"],["اجراکننده","a performer","Y"]]},
+{id:28,section:1,opts:[["بی‌نظم","disorganized","Y"],["محاسبه‌گر","calculating","R"],["خودپسند","self-righteous","B"],["خودکم‌بین","self-deprecating","W"]]},
+{id:29,section:1,opts:[["دلپذیر","pleasant","W"],["کاریزماتیک","charismatic","Y"],["با اعتماد‌به‌نفس","confident","R"],["منضبط","disciplined","B"]]},
+{id:30,section:1,stem:["برای من زندگی...","Life for me is..."],opts:[["سرشار از انتظارات غیرواقع‌بینانه است","full of unrealistic expectations","Y"],["بی‌حاصل است","unproductive","W"],["با ترس از مواجهه با حقایق می‌گذرد","spent afraid to face facts","B"],["ترسناک است","intimidating","R"]]},
+{id:31,section:2,stem:["اگر برای شغلی درخواست می‌دادم، یک کارفرمای احتمالی احتمالاً مرا به این دلیل استخدام می‌کرد که --- هستم:","If I applied for a job, a prospective employer would likely hire me because I am ---:"],opts:[["صبور، سازگار و با تدبیر","patient, adaptable, and tactful","W"],["سنجیده، دقیق و قابل اعتماد","deliberate, accurate, and reliable","B"],["سرگرم‌کننده، پرشور و راحت","entertaining, enthusiastic, and easygoing","Y"],["با انگیزه، مستقیم و دارای توانایی تفویض اختیار","motivated, direct, and able to delegate","R"]]},
+{id:32,section:2,stem:["وقتی درگیر یک رابطه صمیمانه هستم، اگر توسط شریکم احساس تهدید کنم، من:","In an intimate relationship, if I feel threatened by my partner, I:"],opts:[["فاصله می‌گیرم و از درگیری بیشتر اجتناب می‌کنم","withdraw and avoid further conflict","W"],["با حقایق و خشم مقابله می‌کنم","confront it with facts and anger","R"],["ساکت و منزوی می‌شوم و اغلب خشم را نگه می‌دارم تا بعداً سر یک موضوع جزئی منفجر شوم","go quiet and withhold my anger, later exploding over something minor","B"],["گریه می‌کنم، احساس آسیب‌دیدگی می‌کنم و نقشه انتقام می‌کشم","cry, feel hurt, and plot revenge","Y"]]},
+{id:33,section:2,stem:["برای من، زندگی زمانی معنادارتر است که:","Life is more meaningful to me when it is:"],opts:[["وظیفه‌گرا و مولد باشد","task-oriented and productive","R"],["از فشار و استرس آزاد باشد","free of pressure and stress","W"],["با افراد و هدف پر شده باشد","full of people and purpose","Y"],["به من اجازه دهد خوشبین، خلاق و آزاد باشم","lets me be optimistic, creative, and free","B"]]},
+{id:34,section:2,stem:["در کودکی، من --- بودم:","As a child, I was ---:"],opts:[["ساکت، آسان‌گیر و/یا خجالتی","quiet, easygoing, and/or shy","W"],["خوش‌رفتار و/یا افسرده","well-behaved and/or moody","B"],["شاد، بازیگوش و/یا بسیار پرحرف","happy, playful, and/or very talkative","Y"],["باهوش، تهاجمی و/یا لجباز","smart, assertive, and/or stubborn","R"]]},
+{id:35,section:2,stem:["به عنوان یک بزرگسال، من --- هستم:","As an adult, I am ---:"],opts:[["دارای عقیده، مصمم و/یا سلطه‌جو","opinionated, determined, and/or bossy","R"],["مسئول، صادق و/یا نابخشنده","responsible, sincere, and/or unforgiving","B"],["بردبار، راضی و/یا بی‌انگیزه","tolerant, contented, and/or unmotivated","W"],["کاریزماتیک، مثبت و/یا نفرت‌انگیز","charismatic, positive, and/or obnoxious","Y"]]},
+{id:36,section:2,stem:["به عنوان یک والد، احتمالاً --- خواهم بود:","As a parent, I would likely be ---:"],opts:[["سهل‌گیر، به راحتی متقاعد می‌شوم و/یا اغلب تحت فشار قرار می‌گیرم","permissive, easily persuaded, and/or often pressured","W"],["بازیگوش، راحت و/یا غیرمسئول","playful, easygoing, and/or irresponsible","Y"],["پرتوقع، زودرنج و/یا سازش‌ناپذیر","demanding, touchy, and/or uncompromising","R"],["نگران، حساس و/یا منتقد","worried, sensitive, and/or critical","B"]]},
+{id:37,section:2,stem:["در یک بحث با یک دوست، بیشتر احتمال دارد که:","In an argument with a friend, I am more likely to:"],opts:[["پر سر و صدا، ناراحت و/یا سازش‌ناپذیر باشم","be loud, upset, and/or uncompromising","R"],["در مورد حقایق به‌طور لجوجانه‌ای پافشاری کنم","stubbornly insist on the facts","B"],["نگران احساسات و اصول دیگران باشم","be worried about others' feelings and principles","W"],["ساکت، لجباز، ناراحت و/یا گیج باشم","go quiet, stubborn, upset, and/or confused","Y"]]},
+{id:38,section:2,stem:["اگر دوستم در مشکل باشد، من:","If a friend is in trouble, I:"],opts:[["نگران، همدل و وفادار خواهم بود - صرف نظر از مشکل","will be worried, empathetic, and loyal — regardless of the problem","B"],["حمایتگر، صبور و شنونده خوب خواهم بود","will be supportive, patient, and a good listener","W"],["غیرقضاوت‌گر، خوشبین خواهم بود و جدی بودن وضعیت را دست‌کم می‌گیرم","will be non-judgmental, optimistic, and tend to underestimate how serious it is","Y"],["محافظ، مدبر خواهم بود و راه‌حل پیشنهاد می‌دهم","will be protective, resourceful, and offer solutions","R"]]},
+{id:39,section:2,stem:["هنگام تصمیم‌گیری، من --- هستم:","When making decisions, I am ---:"],opts:[["هیجانی، متعهد نشده و ناسازگار","emotional, uncommitted, and inconsistent","Y"],["بلاتکلیف، ترسو و بی‌میل","indecisive, fearful, and reluctant","W"],["قاطع، شمرده و منطقی","decisive, measured, and logical","R"],["سنجیده، دقیق و محتاط","deliberate, precise, and cautious","B"]]},
+{id:40,section:2,stem:["وقتی شکست می‌خورم، احساس می‌کنم:","When I fail, I feel:"],opts:[["خودانتقادگر، به‌طور کلامی لجباز و تدافعی هستم","self-critical, verbally stubborn, and defensive","R"],["ناآرام و ترسان، اما آن را در درون خود نگه می‌دارم","restless and afraid, but keep it inside","W"],["خجالت‌زده و عصبی - به دنبال فرار از موقعیت هستم","embarrassed and anxious — looking for a way out of the situation","Y"],["گناهکار، خودانتقادگر و آسیب‌پذیر نسبت به افسردگی، به آن فکر می‌کنم","guilty, self-critical, and prone to dwelling on it into low mood","B"]]},
+{id:41,section:2,stem:["اگر کسی با من بدرفتاری کند:","If someone mistreats me:"],opts:[["می‌خواهم از رویارویی اجتناب کنم، فکر می‌کنم وضعیت به اندازه‌ای مهم نیست و/یا به دنبال دوستان دیگر می‌گردم","I want to avoid confrontation, feel it isn't worth the trouble, and/or look for other friends","W"],["احساس آسیب‌دیدگی عمیقی می‌کنم و تقریباً غیرممکن است کاملاً ببخشم؛ انتقام گرفتن هم کافی نیست","I feel deeply hurt and find it almost impossible to fully forgive; even revenge doesn't feel like enough","B"],["ساکت می‌مانم و برای انتقام گرفتن برنامه‌ریزی می‌کنم و/یا کاملاً از آن شخص اجتناب می‌کنم","I stay quiet, plan to get even, and/or avoid that person entirely","Y"],["خشمگین می‌شوم و هوشمندانه برای انتقام گرفتن خیلی سریع برنامه‌ریزی می‌کنم","I get angry and quickly, cleverly plan how to get even","R"]]},
+{id:42,section:2,stem:["کار عبارت است از:","Work is:"],opts:[["یک فعالیت سالم که اگر بخواهد درست انجام شود، باید قبل از بازی انجام شود","a healthy activity that, done right, should come before play","R"],["پربارترین راه برای صرف وقت","the most productive way to spend time","B"],["یک نیاز ضروری که کمتر از بازی جذاب است","a necessary need, less appealing than play","W"],["یک فعالیت مثبت تا زمانی که چیزی باشد که از آن لذت می‌برم و برای انجام آن احساس فشار نکنم","a positive activity as long as I enjoy it and don't feel pressured to do it","Y"]]},
+{id:43,section:2,stem:["در موقعیت‌های اجتماعی، من بیشتر اوقات:","In social situations, I am most often:"],opts:[["توسط دیگران دنبال می‌شوم زیرا قاطع و وظیفه‌گرا هستم","followed by others because I'm decisive and task-oriented","R"],["توسط دیگران تحسین می‌شوم زیرا دلسوز و متمرکز بر کیفیت هستم","admired by others because I'm caring and quality-focused","B"],["توسط دیگران محافظت می‌شوم زیرا ملایم و مهربان هستم","protected by others because I'm gentle and kind","W"],["توسط دیگران حسادت می‌شوم زیرا شاد و بسیار سرگرم‌کننده هستم","envied by others because I'm happy and very entertaining","Y"]]},
+{id:44,section:2,stem:["در یک رابطه، من بیشتر نگران این هستم که:","In a relationship, I am most concerned with being:"],opts:[["مورد ستایش قرار بگیرم، احساس کنم آزاد هستم","admired, and feeling free","Y"],["فضای آزاد، بردبار و مسالمت‌آمیز داشته باشم","given space, tolerance, and peace","W"],["مورد تایید، احترام و توجه قرار بگیرم","approved of, respected, and noticed","R"],["درک شوم، مورد قدردانی قرار بگیرم و صمیمی باشم","understood, appreciated, and close","B"]]},
+{id:45,section:2,stem:["برای احساس شادابی و مثبت بودن، من به دنبال:","To feel refreshed and positive, I look for:"],opts:[["ماجراجویی، رهبری و کارهای بسیار زیاد","adventure, leadership, and plenty to do","R"],["هیجان، فعالیت‌های بازیگوشانه و همراهی دیگران","excitement, playful activity, and the company of others","Y"],["امنیت، خلاقیت و هدف","security, creativity, and purpose","B"],["پذیرش، ایمنی و حرکت با سرعت خودم","acceptance, safety, and moving at my own pace","W"]]}
+];
+
+const DIMENSIONS = {
+  R:{fa:"قدرت (قرمز)",en:"Power (Red)",color:"#C4483F",cssVar:"--dim-r"},
+  B:{fa:"عمق و کیفیت (آبی)",en:"Intimacy / Quality (Blue)",color:"#2E2A63",cssVar:"--dim-b"},
+  Y:{fa:"شادی (زرد)",en:"Fun (Yellow)",color:"#C9A15E",cssVar:"--dim-y"},
+  W:{fa:"آرامش (سفید)",en:"Peace (White)",color:"#2F8F82",cssVar:"--dim-w"}
+};
+
+const TYPE_INFO = {
+  R:{name:{fa:"قدرت‌محور",en:"Power-Driven"},
+     desc:{fa:"شما با هدف، قاطعیت و اراده برای پیشبرد کارها شناخته می‌شوید. کنترل شرایط و رسیدن به نتیجه برایتان اهمیت زیادی دارد.",en:"You're driven by goals, decisiveness, and momentum. Being in control and getting results matters deeply to you."},
+     strengths:{fa:["رهبری طبیعی","تصمیم‌گیری سریع","تمرکز بر نتیجه","اراده قوی"],en:["Natural leadership","Fast decision-making","Results focus","Strong will"]},
+     challenges:{fa:["بی‌صبری با دیگران","تمایل به کنترل بیش از حد","دشواری در شنیدن انتقاد"],en:["Impatience with others","Tendency to over-control","Difficulty hearing criticism"]},
+     work:{fa:"محیط‌هایی با اختیار تصمیم‌گیری، چالش و مسیر رشد روشن.",en:"Environments with decision authority, challenge, and a clear growth path."},
+     comm:{fa:"مستقیم و کوتاه صحبت کنید؛ روی نتیجه و گزینه‌ها تمرکز کنید.",en:"Be direct and brief; focus on outcomes and options."}},
+  B:{name:{fa:"عمق‌محور",en:"Depth-Driven"},
+     desc:{fa:"برای شما کیفیت، صداقت و معنا اهمیت دارد. به جزئیات توجه می‌کنید و روابط را عمیق می‌خواهید.",en:"Quality, sincerity, and meaning matter to you. You notice detail and want relationships to run deep."},
+     strengths:{fa:["دقت و کیفیت‌گرایی","وفاداری","تفکر تحلیلی","مسئولیت‌پذیری"],en:["Precision and quality focus","Loyalty","Analytical thinking","Responsibility"]},
+     challenges:{fa:["کمال‌گرایی افراطی","نگرانی زیاد","دشواری در رها کردن جزئیات"],en:["Excessive perfectionism","High worry","Difficulty letting go of detail"]},
+     work:{fa:"محیط‌هایی با استانداردهای روشن، فضای تمرکز و کار عمیق.",en:"Environments with clear standards, focus time, and deep work."},
+     comm:{fa:"دلایل و جزئیات کافی ارائه دهید؛ عجله نکنید.",en:"Give enough reasoning and detail; avoid rushing them."}},
+  Y:{name:{fa:"شادی‌محور",en:"Fun-Driven"},
+     desc:{fa:"انرژی، خوش‌بینی و ارتباط با آدم‌ها موتور حرکت شماست. فضا را سرزنده می‌کنید و به‌سادگی با دیگران ارتباط می‌گیرید.",en:"Energy, optimism, and connection with people drive you. You light up a room and connect easily."},
+     strengths:{fa:["انرژی بالا","خلاقیت اجتماعی","خوش‌بینی","توانایی متقاعدسازی"],en:["High energy","Social creativity","Optimism","Persuasiveness"]},
+     challenges:{fa:["دشواری در پیگیری جزئیات","فراموشکاری","تصمیم‌گیری هیجانی"],en:["Difficulty with follow-through","Forgetfulness","Emotion-driven decisions"]},
+     work:{fa:"محیط‌های پویا، تعاملی و کم‌روتین.",en:"Dynamic, people-facing, low-routine environments."},
+     comm:{fa:"با گرمی و شوخ‌طبعی وارد شوید؛ به آن‌ها فضای بیان بدهید.",en:"Approach with warmth and humor; give them room to talk."}},
+  W:{name:{fa:"آرامش‌محور",en:"Peace-Driven"},
+     desc:{fa:"ثبات، هماهنگی و آرامش برایتان اولویت دارد. شنونده‌ای خوب و میانجی طبیعی جمع هستید.",en:"Stability, harmony, and calm are your priority. You're a natural listener and mediator."},
+     strengths:{fa:["صبر و ثبات","توانایی گوش دادن","میانجی‌گری","سازگاری"],en:["Patience and steadiness","Listening ability","Mediation","Adaptability"]},
+     challenges:{fa:["اجتناب از تعارض لازم","تصمیم‌گیری کند","دشواری در بیان نیازهای خود"],en:["Avoiding necessary conflict","Slow decision-making","Difficulty voicing own needs"]},
+     work:{fa:"محیط‌های باثبات، کم‌تنش و مبتنی بر همکاری.",en:"Stable, low-tension, collaborative environments."},
+     comm:{fa:"آرام و صبورانه صحبت کنید؛ فشار زمانی وارد نکنید.",en:"Speak calmly and patiently; avoid time pressure."}}
+};
+
+const STR = {
+  fa:{
+    brand:"خودشناسی", welcome_title:"مسیر خودشناسی را شروع کنید",
+    welcome_sub:"با پاسخ به ۴۵ سؤال کوتاه، تصویری روشن از سبک شخصیتی خود به دست بیاورید.",
+    step1:"ثبت‌نام", step1d:"چند اطلاعات ساده برای ساخت حساب",
+    step2:"پاسخ به سؤالات", step2d:"۴۵ سؤال در دو بخش، حدود ۱۰ دقیقه",
+    step3:"تحلیل پاسخ‌ها", step3d:"موتور امتیازدهی نتیجه را محاسبه می‌کند",
+    step4:"مشاهده نتیجه", step4d:"گزارش کامل شخصیتی شما آماده می‌شود",
+    start:"شروع تست", login:"ورود به حساب",
+    reg_title:"ثبت‌نام", reg_sub:"اطلاعات زیر را برای ساخت حساب کاربری تکمیل کنید.",
+    fname:"نام", lname:"نام خانوادگی", gender:"جنسیت", male:"مرد", female:"زن",
+    phone:"شماره تلفن", age:"سن", lang:"زبان",
+    reg_btn:"ادامه و دریافت کد تایید", have_acc:"قبلاً ثبت‌نام کرده‌اید؟",
+    otp_channel:"روش دریافت کد تایید", channel_sms:"پیامک (SMS)", channel_email:"ایمیل",
+    email:"ایمیل", err_email:"ایمیل معتبر نیست.",
+    otp_title:"تایید شماره تلفن", otp_sub:"کد ۴ رقمی ارسال‌شده به شماره {phone} را وارد کنید.",
+    otp_checking:"در حال بررسی...", otp_ok:"تایید شد ✓", otp_resend:"ارسال مجدد کد",
+    login_title:"ورود", login_sub:"با شماره تلفن و رمز عبور خود وارد شوید.",
+    password:"رمز عبور", login_btn:"ورود", no_acc:"حساب ندارید؟",
+    forgot_pass:"رمز عبور را فراموش کرده‌اید؟",
+    forgot_title:"بازیابی رمز عبور", forgot_sub:"شماره تلفن حساب خود را وارد کنید تا کد تایید ارسال شود.",
+    forgot_send:"ارسال کد تایید", forgot_notfound:"حسابی با این شماره یافت نشد.",
+    new_pass_title:"تعیین رمز عبور جدید", new_pass_sub:"یک رمز عبور جدید برای حساب خود انتخاب کنید.",
+    new_pass:"رمز عبور جدید", reset_btn:"تغییر رمز عبور",
+    pass_changed_title:"رمز عبور تغییر کرد", pass_changed_sub:"اکنون می‌توانید با رمز جدید وارد شوید.",
+    pass_weak:"ضعیف", pass_medium:"متوسط", pass_strong:"قوی",
+    dash_title:"سلام، {name} 👋", dash_sub:"در جریان وضعیت تست خودشناسی خود باشید.",
+    tests_count:"تست‌ها", completed:"تکمیل‌شده", last_score:"آخرین تیپ",
+    continue_test:"ادامه تست", start_new:"شروع تست جدید", view_result:"مشاهده نتیجه",
+    history:"سوابق تست", no_history:"هنوز تستی انجام نداده‌اید.",
+    intro_title:"قبل از شروع", intro_sub:"چند نکته کوتاه پیش از آغاز تست:",
+    intro_1t:"۴۵ سؤال، دو بخش", intro_1d:"بخش اول: انتخاب کلمه (۳۰ سؤال) — بخش دوم: موقعیتی (۱۵ سؤال)",
+    intro_2t:"حدود ۱۰ دقیقه", intro_2d:"می‌توانید هر زمان خارج شوید و بعداً ادامه دهید",
+    intro_3t:"پاسخ درست یا غلط وجود ندارد", intro_3d:"بر اساس رفتار طبیعی خودتان پاسخ دهید، نه آنچه آرزو دارید",
+    intro_4t:"پاسخ‌ها ذخیره می‌شوند", intro_4d:"با رفرش صفحه، پیشرفت شما از بین نمی‌رود",
+    begin:"شروع کن", section1_tag:"بخش اول — انتخاب کلمه", section2_tag:"بخش دوم — موقعیتی",
+    q_of:"سؤال {n} از ۴۵", back:"قبلی",
+    qlist:"فهرست سؤالات", qlist_answered:"پاسخ داده‌شده", qlist_unanswered:"بدون پاسخ",
+    sec_trans_title:"بخش اول تمام شد 🎉", sec_trans_sub:"عالی پیش می‌روید. حالا وارد بخش موقعیتی می‌شویم؛ ۱۵ سؤال باقی مانده.",
+    sec_trans_btn:"ادامه به بخش دوم",
+    processing_title:"در حال تحلیل پاسخ‌های شما...", processing_sub:"موتور امتیازدهی در حال محاسبه ابعاد شخصیتی شماست.",
+    result_ready:"تیپ غالب شما", result_secondary:"تیپ ثانویه",
+    strengths:"نقاط قوت", challenges:"چالش‌ها", work:"محیط کاری مناسب", comm:"سبک ارتباطی",
+    disclaimer:"این آزمون یک ابزار خودشناسی است و جایگزین تشخیص روان‌شناختی یا پزشکی نیست.",
+    back_dash:"بازگشت به داشبورد", retake:"شروع تست جدید",
+    download_pdf:"دانلود PDF", share_result:"اشتراک‌گذاری نتیجه", share_fallback:"تصویر دانلود شد",
+    logging_out:"با موفقیت از حساب کاربری خود خارج شدید",
+    admin_link:"ورود مدیریت", admin_login_title:"ورود مدیریت", admin_login_sub:"برای دسترسی به کاربران و نتایج، وارد شوید.",
+    admin_username:"نام کاربری", admin_login_btn:"ورود به پنل", admin_dev_hint:"اطلاعات نمونه Development — admin / admin123",
+    admin_err:"نام کاربری یا رمز عبور اشتباه است.",
+    admin_title:"پنل مدیریت", admin_sub:"آمار محلی این مرورگر — در نسخه Production این داده از دیتابیس مرکزی می‌آید.",
+    admin_users:"کاربران", admin_attempts:"تست‌ها", admin_completed:"تکمیل‌شده", admin_inprog:"نیمه‌تمام",
+    admin_show_users:"نمایش کاربران", admin_hide_users:"مخفی کردن کاربران",
+    admin_table_title:"سوابق تست‌ها", col_date:"تاریخ", col_status:"وضعیت", col_type:"تیپ غالب",
+    admin_logout:"خروج از پنل مدیریت",
+    dev_mode:"حالت توسعه — کد تایید:",
+    footer_prefix:"طراحی و توسعه توسط تیم ", footer_suffix:" - ۲۰۲۶",
+    modal_title:"تیم برنامه‌نویسی رانوا (Ranova)",
+    modal_text:"تیم برنامه‌نویسی رانوا متشکل از متخصص‌هایی در زمینه‌های مختلف در صنعت برنامه‌نویسی فعالیت می‌کند. جهت کسب اطلاعات بیشتر، سفارش و انجام پروژه شخصی خودتان توسط تیم ما، از طریق راه‌های زیر در ارتباط باشید:",
+    err_required:"این فیلد الزامی است.", err_phone:"شماره تلفن باید ۱۱ رقم باشد و با ۰۹ شروع شود.",
+    err_age:"سن باید بین ۱۲ تا ۹۹ باشد.", err_pass:"رمز عبور صحیح نیست.",
+    err_min_pass:"رمز عبور باید حداقل ۶ کاراکتر باشد.", err_name_fa:"لطفاً فقط با حروف فارسی وارد کنید.", err_name_en:"Please use English letters only.",
+  },
+  en:{
+    brand:"Self Insight", welcome_title:"Begin your self-discovery",
+    welcome_sub:"Answer 45 short questions to get a clear picture of your personality style.",
+    step1:"Register", step1d:"A few simple details to create your account",
+    step2:"Answer questions", step2d:"45 questions in two parts, about 10 minutes",
+    step3:"Analyze answers", step3d:"The scoring engine calculates your result",
+    step4:"See your result", step4d:"Your full personality report is ready",
+    start:"Start the Test", login:"Log in",
+    reg_title:"Register", reg_sub:"Fill in the details below to create your account.",
+    fname:"First name", lname:"Last name", gender:"Gender", male:"Male", female:"Female",
+    phone:"Phone number", age:"Age", lang:"Language",
+    reg_btn:"Continue & get code", have_acc:"Already have an account?",
+    otp_channel:"Verification code delivery", channel_sms:"SMS", channel_email:"Email",
+    email:"Email", err_email:"Enter a valid email address.",
+    otp_title:"Verify your phone", otp_sub:"Enter the 4-digit code sent to {phone}.",
+    otp_checking:"Checking...", otp_ok:"Verified ✓", otp_resend:"Resend code",
+    login_title:"Log in", login_sub:"Sign in with your phone number and password.",
+    password:"Password", login_btn:"Log in", no_acc:"Don't have an account?",
+    forgot_pass:"Forgot your password?",
+    forgot_title:"Reset password", forgot_sub:"Enter your account's phone number to receive a code.",
+    forgot_send:"Send code", forgot_notfound:"No account found with this number.",
+    new_pass_title:"Set a new password", new_pass_sub:"Choose a new password for your account.",
+    new_pass:"New password", reset_btn:"Change password",
+    pass_changed_title:"Password changed", pass_changed_sub:"You can now log in with your new password.",
+    pass_weak:"Weak", pass_medium:"Medium", pass_strong:"Strong",
+    dash_title:"Hi, {name} 👋", dash_sub:"Here's where your self-insight test stands.",
+    tests_count:"Attempts", completed:"Completed", last_score:"Last type",
+    continue_test:"Continue test", start_new:"Start new test", view_result:"View result",
+    history:"Test history", no_history:"You haven't taken a test yet.",
+    intro_title:"Before you start", intro_sub:"A few quick notes before the test:",
+    intro_1t:"45 questions, two parts", intro_1d:"Part 1: word choice (30) — Part 2: situational (15)",
+    intro_2t:"About 10 minutes", intro_2d:"You can leave anytime and resume later",
+    intro_3t:"No right or wrong answers", intro_3d:"Answer based on your natural behavior, not your ideal self",
+    intro_4t:"Answers are saved", intro_4d:"Refreshing the page won't lose your progress",
+    begin:"Begin", section1_tag:"Part 1 — Word choice", section2_tag:"Part 2 — Situational",
+    q_of:"Question {n} of 45", back:"Back",
+    qlist:"Question list", qlist_answered:"Answered", qlist_unanswered:"Unanswered",
+    sec_trans_title:"Part 1 complete 🎉", sec_trans_sub:"Great progress. Now the situational part — 15 questions left.",
+    sec_trans_btn:"Continue to Part 2",
+    processing_title:"Analyzing your answers...", processing_sub:"The scoring engine is computing your personality dimensions.",
+    result_ready:"Your primary type", result_secondary:"Secondary type",
+    strengths:"Strengths", challenges:"Challenges", work:"Ideal work environment", comm:"Communication style",
+    disclaimer:"This is a self-insight tool, not a substitute for psychological or medical diagnosis.",
+    back_dash:"Back to dashboard", retake:"Start a new test",
+    download_pdf:"Download PDF", share_result:"Share result", share_fallback:"Image downloaded",
+    logging_out:"You've successfully logged out",
+    admin_link:"Admin login", admin_login_title:"Admin login", admin_login_sub:"Sign in to access users and results.",
+    admin_username:"Username", admin_login_btn:"Enter panel", admin_dev_hint:"Development sample credentials — admin / admin123",
+    admin_err:"Incorrect username or password.",
+    admin_title:"Admin panel", admin_sub:"Stats from this browser only — in production this comes from the central database.",
+    admin_users:"Users", admin_attempts:"Attempts", admin_completed:"Completed", admin_inprog:"In progress",
+    admin_show_users:"Show users", admin_hide_users:"Hide users",
+    admin_table_title:"Test records", col_date:"Date", col_status:"Status", col_type:"Primary type",
+    admin_logout:"Log out of admin panel",
+    dev_mode:"Dev mode — verification code:",
+    footer_prefix:"Designed & developed by ", footer_suffix:" — 2026",
+    modal_title:"Ranova Development Team",
+    modal_text:"The Ranova programming team consists of specialists across various fields of the software industry. To learn more, place an order, or have your own project built by our team, reach us through the following:",
+    err_required:"This field is required.", err_phone:"Phone number must be 11 digits starting with 09.",
+    err_age:"Age must be between 12 and 99.", err_pass:"Incorrect password.",
+    err_min_pass:"Password must be at least 6 characters.", err_name_fa:"لطفاً فقط با حروف فارسی وارد کنید.", err_name_en:"Please use English letters only.",
+  }
+};
+
+function passwordStrength(pw){
+  if(!pw) return {level:0,label:''};
+  let score=0;
+  if(pw.length>=6) score++;
+  if(pw.length>=10) score++;
+  if(/[a-zA-Z]/.test(pw) && /[0-9]/.test(pw)) score++;
+  if(/[^a-zA-Z0-9]/.test(pw)) score++;
+  if(/[a-z]/.test(pw) && /[A-Z]/.test(pw)) score++;
+  if(score<=1) return {level:1};
+  if(score<=3) return {level:2};
+  return {level:3};
+}
+function filterName(str, lang){
+  return lang==='fa' ? str.replace(/[^\u0600-\u06FF\s\u200C]/g,'') : str.replace(/[^A-Za-z\s]/g,'');
+}
+
+/* =========================================================================
+   APP
+   ========================================================================= */
+const App = {
+  lang: 'fa', theme:'light',
+  state: { screen:'welcome', qIndex:0, pendingReg:null, otpCode:null, otpPurpose:'register', otpChannel:'sms', otpDestination:null, forgotPhone:null,
+           currentAttempt:null, navOpen:false, adminUsersOpen:false, adminExpandedUser:null, isAdmin:false, pulseOption:null },
+
+  async init(){
+    const savedLang = await this.storGet('lang'); if(savedLang) this.lang = savedLang;
+    const savedTheme = await this.storGet('theme'); if(savedTheme) this.theme = savedTheme;
+    this.applyLang(); this.applyTheme();
+    this.renderFooter();
+    const adminAcc = await this.storGet('adminAccount');
+    if(!adminAcc) await this.storSet('adminAccount', {username:'admin', password:'admin123'});
+    const user = await this.storGet('user');
+    const attempt = await this.storGet('attempt');
+    if(attempt && attempt.status==='IN_PROGRESS') this.state.currentAttempt = attempt;
+    if(user){ document.getElementById('logoutBtn').classList.remove('hidden'); this.render('dashboard'); }
+    else this.render('welcome');
+    document.getElementById('brandBtn').addEventListener('click', ()=> this.render('welcome'));
+  },
+
+  t(key, vars){ let s = STR[this.lang][key] || key; if(vars) for(const k in vars) s = s.replace('{'+k+'}', vars[k]); return s; },
+  async storGet(key){ try{ const r = await window.storage.get(key); return r ? JSON.parse(r.value) : null; }catch(e){ return null; } },
+  async storSet(key,val){ try{ await window.storage.set(key, JSON.stringify(val)); }catch(e){ console.error('storage error',e); } },
+  async storDelete(key){ try{ await window.storage.delete(key); }catch(e){} },
+
+  fadeSwitch(fn){
+    const main = document.getElementById('main');
+    main.style.transition = 'opacity .18s ease';
+    main.style.opacity = '0';
+    setTimeout(()=>{
+      fn();
+      requestAnimationFrame(()=>{ main.style.opacity = '1'; });
+    }, 180);
+  },
+  toggleLang(){
+    this.fadeSwitch(()=>{
+      this.lang = this.lang === 'fa' ? 'en' : 'fa';
+      this.storSet('lang', this.lang);
+      this.applyLang(); this.renderFooter();
+      this.render(this.state.screen, this.state.lastData);
+    });
+  },
+  applyLang(){
+    const isFa = this.lang === 'fa';
+    document.documentElement.lang = isFa ? 'fa' : 'en';
+    document.documentElement.dir = isFa ? 'rtl' : 'ltr';
+    document.body.classList.toggle('lang-en', !isFa);
+    document.getElementById('langToggle').textContent = isFa ? 'EN' : 'FA';
+    document.getElementById('brandText').textContent = this.t('brand');
+    document.getElementById('logoutBtn').textContent = isFa ? 'خروج' : 'Log out';
+  },
+  toggleTheme(){
+    this.fadeSwitch(()=>{
+      this.theme = this.theme === 'light' ? 'dark' : 'light';
+      this.storSet('theme', this.theme);
+      this.applyTheme();
+      this.render(this.state.screen, this.state.lastData);
+    });
+  },
+  applyTheme(){
+    document.documentElement.style.transition = 'background-color .3s ease, color .3s ease';
+    document.documentElement.setAttribute('data-theme', this.theme);
+    document.getElementById('themeToggle').innerHTML = this.theme==='dark' ? ICON.sun : ICON.moon;
+    document.getElementById('themeToggle').onclick = ()=>this.toggleTheme();
+  },
+
+  render(screen, data){
+    if(screen==='admin' && !this.state.isAdmin) screen = 'adminLogin';
+    this.state.screen = screen;
+    this.state.lastData = data;
+    const main = document.getElementById('main');
+    main.innerHTML = '';
+    const fns = { welcome:this.screenWelcome, register:this.screenRegister, otp:this.screenOtp,
+      login:this.screenLogin, forgotPhone:this.screenForgotPhone, forgotReset:this.screenForgotReset, passChanged:this.screenPassChanged,
+      dashboard:this.screenDashboard, testIntro:this.screenTestIntro,
+      question:this.screenQuestion, sectionTransition:this.screenSectionTransition,
+      processing:this.screenProcessing, result:this.screenResult, loggingOut:this.screenLoggingOut,
+      adminLogin:this.screenAdminLogin, admin:this.screenAdmin };
+    const out = fns[screen].call(this, data);
+    if(out instanceof Promise){
+      out.then(node=>{
+        if(this.state.screen !== screen) return;
+        main.appendChild(node);
+        window.scrollTo({top:0, behavior:'smooth'});
+      });
+    } else {
+      main.appendChild(out);
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+  },
+
+  el(tag, attrs, children){
+    const e = document.createElement(tag);
+    if(attrs) for(const k in attrs){
+      if(k==='class') e.className = attrs[k];
+      else if(k==='html') e.innerHTML = attrs[k];
+      else if(k.startsWith('on')) e.addEventListener(k.slice(2), attrs[k]);
+      else e.setAttribute(k, attrs[k]);
+    }
+    (children||[]).forEach(c=> e.appendChild(typeof c==='string'? document.createTextNode(c): c));
+    return e;
+  },
+
+  showDevNote(msg){
+    const n = document.getElementById('devNote');
+    n.innerHTML = ''; n.classList.remove('hidden');
+    n.appendChild(this.el('span',{},[msg]));
+    n.appendChild(this.el('button',{onclick:()=>n.classList.add('hidden')},['✕']));
+  },
+
+  /* ---------- FOOTER + MODAL ---------- */
+  renderFooter(){
+    const host = document.getElementById('footerHost');
+    host.innerHTML = '';
+    const foot = this.el('div',{class:'site-footer'});
+    foot.appendChild(this.el('span',{},[this.t('footer_prefix')]));
+    const btn = this.el('button',{class:'brandlink', onclick:()=>this.showRanovaModal()},['رانوا (Ranova)']);
+    foot.appendChild(btn);
+    foot.appendChild(this.el('span',{},[this.t('footer_suffix')]));
+    host.appendChild(foot);
+  },
+  showRanovaModal(){
+    const host = document.getElementById('modalHost');
+    host.innerHTML = '';
+    const overlay = this.el('div',{class:'modal-overlay', onclick:(e)=>{ if(e.target===overlay) host.innerHTML=''; }});
+    const box = this.el('div',{class:'modal-box'});
+    box.appendChild(this.el('button',{class:'modal-close', onclick:()=>host.innerHTML=''},['✕']));
+    box.appendChild(this.el('div',{class:'modal-title'},[this.t('modal_title')]));
+    box.appendChild(this.el('p',{class:'modal-text'},[this.t('modal_text')]));
+    const links = this.el('div',{class:'modal-links'});
+    const mkLink = (href, bg, svg, label)=> this.el('a',{href, target:'_blank', rel:'noopener', class:'modal-link'},[
+      this.el('span',{class:'ic-circle', style:'background:'+bg, html:svg}), label
+    ]);
+    const mkImgLink = (href, src, label)=> this.el('a',{href, target:'_blank', rel:'noopener', class:'modal-link'},[
+      this.el('img',{src, alt:label, style:'width:46px;height:46px;border-radius:14px;object-fit:contain;box-shadow:var(--shadow-1)'}), label
+    ]);
+    links.appendChild(mkImgLink('https://eitaa.com/s_noushad', LOGO_EITAA, this.lang==='fa'?'ایتا':'Eitaa'));
+    links.appendChild(mkImgLink('https://ble.ir/s_noushad', LOGO_BALE, this.lang==='fa'?'بله':'Bale'));
+    links.appendChild(mkLink('https://t.me/s_noushad', '#26A5E4', ICON.telegram, this.lang==='fa'?'تلگرام':'Telegram'));
+    box.appendChild(links);
+    overlay.appendChild(box);
+    host.appendChild(overlay);
+  },
+
+  /* ---------- WELCOME ---------- */
+  screenWelcome(){
+    const wrap = this.el('div',{class:'screen wide'});
+
+    // ---------- Explainer section with a sample chart ----------
+    const hero = this.el('div',{style:'text-align:center;max-width:640px;margin:0 auto 28px'});
+    hero.appendChild(this.el('span',{class:'type-pill'},[this.lang==='fa'?'تست شخصیت‌شناسی رایگان و آنلاین':'Free online personality test']));
+    hero.appendChild(this.el('h1',{style:'margin-top:14px'},[this.lang==='fa'?'بشناسید چه چیزی شما را به حرکت درمی‌آورد':'Discover what really drives you']));
+    hero.appendChild(this.el('p',{class:'sub', style:'max-width:520px;margin:0 auto 22px'},[
+      this.lang==='fa'
+        ? 'آزمون «خودشناسی» چهار بُعد اصلی شخصیت شما — قدرت، عمق و کیفیت، شادی، و آرامش — را می‌سنجد و تصویری روشن از سبک تصمیم‌گیری، ارتباط و کار شما ارائه می‌دهد.'
+        : 'The Self Insight test measures your four core personality dimensions — Power, Intimacy/Quality, Fun, and Peace — giving a clear picture of how you decide, connect, and work.'
+    ]));
+
+    const chartCard = this.el('div',{class:'card', style:'max-width:420px;margin:0 auto;text-align:start'});
+    chartCard.appendChild(this.el('p',{style:'text-align:center;font-size:12px;font-weight:700;color:var(--ink-60);margin:0 0 16px'},[
+      this.lang==='fa'?'نمونه‌ای از گزارش نهایی شما':"A sample of your final report"
+    ]));
+    const sampleDims = [['R',78],['B',55],['Y',90],['W',40]];
+    sampleDims.forEach(([k,pct])=>{
+      chartCard.appendChild(this.el('div',{class:'dim-row', style:'margin-bottom:12px'},[
+        this.el('span',{class:'dim-label', style:`width:120px;color:var(${DIMENSIONS[k].cssVar})`},[DIMENSIONS[k][this.lang]]),
+        this.el('div',{class:'dim-track'},[this.el('div',{class:'dim-fill', style:`width:${pct}%;background:var(${DIMENSIONS[k].cssVar})`})]),
+        this.el('span',{class:'dim-pct'},[pct+'%'])
+      ]));
+    });
+    hero.appendChild(chartCard);
+    wrap.appendChild(hero);
+
+    // ---------- Feature grid ----------
+    const featData = this.lang==='fa' ? [
+      ['🧭','۴۵ سؤال علمی','بر پایهٔ مدل شناخته‌شدهٔ چهار بُعد شخصیتی'],
+      ['⚡','فقط ۱۰ دقیقه','کوتاه، روان و بدون خستگی'],
+      ['🔒','محرمانه و امن','پاسخ‌های شما فقط برای خودتان قابل مشاهده است'],
+      ['🌗','دو زبانه و دو حالت','فارسی/انگلیسی، روشن/تیره'],
+      ['📄','گزارش قابل دانلود','خروجی PDF یا اشتراک‌گذاری تصویر نتیجه'],
+      ['📈','تحلیل دقیق','تیپ غالب، تیپ ثانویه و نمودار کامل ابعاد']
+    ] : [
+      ['🧭','45 science-based questions','Built on a well-known four-dimension personality model'],
+      ['⚡','Just 10 minutes','Short, smooth, and never tiring'],
+      ['🔒','Private & secure','Your answers are visible only to you'],
+      ['🌗','Bilingual & themeable','Persian/English, light/dark'],
+      ['📄','Downloadable report','Export as PDF or share your result as an image'],
+      ['📈','In-depth analysis','Primary type, secondary type, and full dimension chart']
+    ];
+    const featGrid = this.el('div',{class:'feature-grid', style:'max-width:760px;margin:0 auto 28px'});
+    featData.forEach(([emoji,ft,fd])=>{
+      featGrid.appendChild(this.el('div',{class:'feature-item'},[
+        this.el('div',{class:'emoji'},[emoji]),
+        this.el('div',{class:'ft'},[ft]),
+        this.el('div',{class:'fd'},[fd])
+      ]));
+    });
+    wrap.appendChild(featGrid);
+
+    // ---------- Original CTA card ----------
+    const c = this.el('div',{class:'card center-card', style:'max-width:480px;margin:0 auto'});
+    c.appendChild(this.el('div',{class:'type-pill'},[this.lang==='fa'?'۴۵ سؤال · ۲ بخش · ~۱۰ دقیقه':'45 questions · 2 parts · ~10 min']));
+    c.appendChild(this.el('h1',{},[this.t('welcome_title')]));
+    c.appendChild(this.el('p',{class:'sub'},[this.t('welcome_sub')]));
+    const steps = this.el('div',{class:'step-list'});
+    [['step1','step1d'],['step2','step2d'],['step3','step3d'],['step4','step4d']].forEach(([a,b],i)=>{
+      steps.appendChild(this.el('div',{class:'step'},[
+        this.el('div',{class:'num'},[String(i+1)]),
+        this.el('div',{class:'txt'},[ this.el('b',{},[this.t(a)]), this.el('span',{},[this.t(b)]) ])
+      ]));
+    });
+    c.appendChild(steps);
+    c.appendChild(this.el('button',{class:'btn btn-primary', onclick:()=>this.render('register')},[this.t('start')]));
+    c.appendChild(this.el('button',{class:'btn btn-ghost', style:'margin-top:10px', onclick:()=>this.render('login')},[this.t('login')]));
+    wrap.appendChild(c);
+    return wrap;
+  },
+
+  /* ---------- shared: password field with eye + strength ---------- */
+  mkPasswordField(id, labelKey, withStrength){
+    const f = this.el('div',{class:'field', id:'f_'+id});
+    f.appendChild(this.el('label',{for:id},[this.t(labelKey)]));
+    const wrap = this.el('div',{class:'pw-wrap'});
+    const inp = this.el('input',{type:'password', id});
+    const eyeBtn = this.el('button',{type:'button', class:'pw-eye', html:ICON.eye});
+    eyeBtn.addEventListener('click', ()=>{
+      const showing = inp.type==='text';
+      inp.type = showing ? 'password' : 'text';
+      eyeBtn.innerHTML = showing ? ICON.eye : ICON.eyeOff;
+    });
+    wrap.appendChild(inp); wrap.appendChild(eyeBtn); f.appendChild(wrap);
+    if(withStrength){
+      const track = this.el('div',{class:'pw-strength-track'});
+      const fill = this.el('div',{class:'pw-strength-fill', id:id+'_bar'});
+      track.appendChild(fill); f.appendChild(track);
+      f.appendChild(this.el('div',{class:'pw-strength-label', id:id+'_label'}));
+      inp.addEventListener('input', ()=>{
+        const {level} = passwordStrength(inp.value);
+        const pct = [0,33,66,100][level];
+        const colors = ['transparent','var(--danger)','var(--gold)','var(--ok)'];
+        const labels = {fa:['','pass_weak','pass_medium','pass_strong'], en:['','pass_weak','pass_medium','pass_strong']};
+        const bar = document.getElementById(id+'_bar'); const lbl = document.getElementById(id+'_label');
+        bar.style.width = pct+'%'; bar.style.background = colors[level];
+        lbl.textContent = level ? this.t(labels[this.lang][level]) : '';
+        lbl.style.color = colors[level];
+      });
+    }
+    f.appendChild(this.el('div',{class:'err', id:'err_'+id},[this.t(withStrength?'err_min_pass':'err_pass')]));
+    return f;
+  },
+
+  /* ---------- REGISTER ---------- */
+  screenRegister(){
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card'});
+    c.appendChild(this.el('h1',{},[this.t('reg_title')]));
+    c.appendChild(this.el('p',{class:'sub'},[this.t('reg_sub')]));
+
+    // language select first so name-field filtering can reference it
+    const langField = this.el('div',{class:'field'});
+    langField.appendChild(this.el('label',{},[this.t('lang')]));
+    const langSel = this.el('select',{id:'reglang'},[
+      this.el('option',{value:'fa'},['فارسی']), this.el('option',{value:'en'},['English'])
+    ]);
+    langSel.value = this.lang;
+    langField.appendChild(langSel); c.appendChild(langField);
+
+    const mkNameField = (id,labelKey)=>{
+      const f = this.el('div',{class:'field', id:'f_'+id});
+      f.appendChild(this.el('label',{for:id},[this.t(labelKey)]));
+      const inp = this.el('input',{type:'text', id});
+      inp.addEventListener('input', ()=>{
+        const before = inp.value; const after = filterName(before, langSel.value);
+        if(before!==after) inp.value = after;
+      });
+      f.appendChild(inp);
+      f.appendChild(this.el('div',{class:'err', id:'err_'+id},[this.lang==='fa'?this.t('err_name_fa'):this.t('err_name_en')]));
+      return f;
+    };
+    const row = this.el('div',{class:'row2'});
+    const fnameF = mkNameField('fname','fname'), lnameF = mkNameField('lname','lname');
+    row.appendChild(fnameF); row.appendChild(lnameF);
+    c.appendChild(row);
+    langSel.addEventListener('change', ()=>{
+      const fi = document.getElementById('fname'), li = document.getElementById('lname');
+      fi.value = filterName(fi.value, langSel.value); li.value = filterName(li.value, langSel.value);
+    });
+
+    const genderField = this.el('div',{class:'field'});
+    genderField.appendChild(this.el('label',{},[this.t('gender')]));
+    const genderSel = this.el('select',{id:'gender'},[
+      this.el('option',{value:'male'},[this.t('male')]), this.el('option',{value:'female'},[this.t('female')])
+    ]);
+    genderField.appendChild(genderSel); c.appendChild(genderField);
+
+    const row2 = this.el('div',{class:'row2'});
+    const phoneF = this.el('div',{class:'field', id:'f_phone'});
+    const phoneLabel = this.el('label',{for:'phone'},[this.t('phone'), this.el('span',{id:'phoneOptionalHint', class:'hidden', style:'font-weight:400;color:var(--ink-60)'},[this.lang==='fa'?' (اختیاری)':' (optional)'])]);
+    phoneF.appendChild(phoneLabel);
+    const phoneInp = this.el('input',{type:'tel', id:'phone', maxlength:'11', inputmode:'numeric', placeholder:'09xxxxxxxxx'});
+    phoneInp.addEventListener('input', ()=>{ phoneInp.value = phoneInp.value.replace(/[^0-9]/g,'').slice(0,11); });
+    phoneF.appendChild(phoneInp);
+    phoneF.appendChild(this.el('div',{class:'err', id:'err_phone'},[this.t('err_phone')]));
+    row2.appendChild(phoneF);
+    const ageF = this.el('div',{class:'field', id:'f_age'});
+    ageF.appendChild(this.el('label',{for:'age'},[this.t('age')]));
+    ageF.appendChild(this.el('input',{type:'number', id:'age'}));
+    ageF.appendChild(this.el('div',{class:'err', id:'err_age'},[this.t('err_age')]));
+    row2.appendChild(ageF);
+    c.appendChild(row2);
+
+    // OTP delivery channel — user picks SMS or Email; email field appears only when Email is chosen
+    const chField = this.el('div',{class:'field'});
+    chField.appendChild(this.el('label',{},[this.t('otp_channel')]));
+    const chRow = this.el('div',{class:'btn-row'});
+    const smsChip = this.el('button',{type:'button', class:'chip-btn active', id:'chipSms', style:'flex:1;justify-content:center'},[this.t('channel_sms')]);
+    const emailChip = this.el('button',{type:'button', class:'chip-btn', id:'chipEmail', style:'flex:1;justify-content:center'},[this.t('channel_email')]);
+    chRow.appendChild(smsChip); chRow.appendChild(emailChip);
+    chField.appendChild(chRow);
+    c.appendChild(chField);
+
+    const emailF = this.el('div',{class:'field hidden', id:'f_email'});
+    emailF.appendChild(this.el('label',{for:'email'},[this.t('email')]));
+    emailF.appendChild(this.el('input',{type:'text', id:'email', dir:'ltr', placeholder:'name@example.com'}));
+    emailF.appendChild(this.el('div',{class:'err', id:'err_email'},[this.t('err_email')]));
+    c.appendChild(emailF);
+
+    let otpChannel = 'sms';
+    smsChip.addEventListener('click', ()=>{ otpChannel='sms'; smsChip.classList.add('active'); emailChip.classList.remove('active'); emailF.classList.add('hidden'); this._regChannel='sms'; document.getElementById('phoneOptionalHint').classList.add('hidden'); });
+    emailChip.addEventListener('click', ()=>{ otpChannel='email'; emailChip.classList.add('active'); smsChip.classList.remove('active'); emailF.classList.remove('hidden'); this._regChannel='email'; document.getElementById('phoneOptionalHint').classList.remove('hidden'); });
+    this._regChannel = 'sms';
+
+    c.appendChild(this.mkPasswordField('password','password', true));
+
+    const btn = this.el('button',{class:'btn btn-primary', style:'margin-top:8px'},[this.t('reg_btn')]);
+    btn.addEventListener('click', ()=> this.submitRegister());
+    c.appendChild(btn);
+    c.appendChild(this.el('div',{class:'foot-link'},[
+      this.t('have_acc')+' ', this.el('button',{class:'btn-link', onclick:()=>this.render('login')},[this.t('login')])
+    ]));
+    s.appendChild(c); return s;
+  },
+
+  validate(id, cond){
+    const field = document.getElementById('f_'+id);
+    if(!cond){ field.classList.add('has-err'); return false; }
+    field.classList.remove('has-err'); return true;
+  },
+
+  async submitRegister(){
+    const v = id => document.getElementById(id).value.trim();
+    const fname=v('fname'), lname=v('lname'), gender=document.getElementById('gender').value,
+      phone=v('phone'), age=v('age'), reglang=document.getElementById('reglang').value, password=v('password');
+    const channel = this._regChannel || 'sms';
+    const email = v('email');
+    const hasEmail = channel==='email' && email.length>0;
+
+    let ok = true;
+    ok = this.validate('fname', fname.length>0) && ok;
+    ok = this.validate('lname', lname.length>0) && ok;
+    // Phone is required only when no email was provided; otherwise optional.
+    ok = this.validate('phone', hasEmail ? (phone.length===0 || /^09\d{9}$/.test(phone)) : /^09\d{9}$/.test(phone)) && ok;
+    ok = this.validate('age', Number(age)>=12 && Number(age)<=99) && ok;
+    ok = this.validate('password', password.length>=6) && ok;
+    if(channel==='email'){ ok = this.validate('email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) && ok; }
+    if(!ok) return;
+
+    this.lang = reglang; this.storSet('lang', reglang); this.applyLang(); this.renderFooter();
+
+    const otp = String(Math.floor(1000+Math.random()*9000));
+    this.state.pendingReg = {fname,lname,gender,phone,age,lang:reglang,password,otpChannel:channel,email:channel==='email'?email:''};
+    this.state.otpCode = otp; this.state.otpPurpose = 'register';
+    this.state.otpChannel = channel;
+    this.state.otpDestination = channel==='email' ? email : phone;
+    if(channel==='email') console.log('[MockEmailProvider] OTP for', email, '=', otp);
+    else console.log('[MockSmsProvider] OTP for', phone, '=', otp);
+    this.render('otp');
+  },
+
+  /* ---------- OTP (shared: register + forgot password) ---------- */
+  screenOtp(){
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card'});
+    const purpose = this.state.otpPurpose;
+    const phone = purpose==='forgot' ? this.state.otpDestination : this.state.otpDestination;
+    c.appendChild(this.el('h1',{},[this.t('otp_title')]));
+    c.appendChild(this.el('p',{class:'sub'},[this.t('otp_sub',{phone})]));
+
+    const hint = this.el('div',{class:'otp-hint'});
+    hint.innerHTML = `${this.t('dev_mode')} <b>${this.state.otpCode}</b>`;
+    c.appendChild(hint);
+
+    const boxes = this.el('div',{class:'otp-boxes', dir:'ltr'});
+    const statusRow = this.el('div',{class:'otp-check-row'});
+    const inputs = [];
+    for(let i=0;i<4;i++){
+      const inp = this.el('input',{type:'text', maxlength:'1', inputmode:'numeric'});
+      inputs.push(inp); boxes.appendChild(inp);
+    }
+    const checkNow = ()=>{
+      const code = inputs.map(i=>i.value).join('');
+      if(code.length<4){ statusRow.textContent=''; statusRow.classList.remove('ok'); return; }
+      if(code === this.state.otpCode){
+        statusRow.textContent = this.t('otp_ok'); statusRow.classList.add('ok');
+        inputs.forEach(i=>i.disabled = true);
+        setTimeout(()=>{
+          if(purpose==='forgot') this.render('forgotReset'); else this.completeRegistration();
+        }, 350);
+      } else {
+        statusRow.textContent = this.t('otp_checking'); statusRow.classList.remove('ok');
+        boxes.classList.add('shake','error');
+        setTimeout(()=>{
+          boxes.classList.remove('shake','error');
+          inputs.forEach(i=>i.value='');
+          statusRow.textContent = '';
+          inputs[0].focus();
+        }, 550);
+      }
+    };
+    inputs.forEach((inp,i)=>{
+      inp.addEventListener('input', (e)=>{
+        if(e.target.value && inputs[i+1]) inputs[i+1].focus();
+        checkNow();
+      });
+      inp.addEventListener('keydown', (e)=>{ if(e.key==='Backspace' && !e.target.value && inputs[i-1]) inputs[i-1].focus(); });
+    });
+    c.appendChild(boxes);
+    c.appendChild(statusRow);
+
+    c.appendChild(this.el('div',{class:'foot-link'},[
+      this.el('button',{class:'btn-link', onclick:()=>{
+        this.state.otpCode = String(Math.floor(1000+Math.random()*9000));
+        if(this.state.otpChannel==='email') console.log('[MockEmailProvider] OTP resent:', this.state.otpCode);
+        else console.log('[MockSmsProvider] OTP resent:', this.state.otpCode);
+        this.render('otp');
+      }},[this.t('otp_resend')])
+    ]));
+    s.appendChild(c);
+    setTimeout(()=>inputs[0] && inputs[0].focus(), 50);
+    return s;
+  },
+
+  async completeRegistration(){
+    const reg = this.state.pendingReg;
+    const user = { name: reg.fname+' '+reg.lname, fname:reg.fname, lname:reg.lname, gender:reg.gender,
+      phone:reg.phone, age:reg.age, lang:reg.lang, password:reg.password,
+      otpChannel:reg.otpChannel||'sms', email:reg.email||'', createdAt:Date.now() };
+    await this.storSet('user', user);
+    await this.storSet('attempts', []);
+    document.getElementById('logoutBtn').classList.remove('hidden');
+    this.render('dashboard');
+  },
+
+  /* ---------- LOGIN ---------- */
+  screenLogin(){
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card'});
+    c.appendChild(this.el('h1',{},[this.t('login_title')]));
+    c.appendChild(this.el('p',{class:'sub'},[this.t('login_sub')]));
+    const f1 = this.el('div',{class:'field', id:'f_lphone'});
+    f1.appendChild(this.el('label',{},[this.lang==='fa'?'شماره تلفن یا ایمیل':'Phone or Email']));
+    const lphoneInp = this.el('input',{type:'text', id:'lphone', dir:'ltr', placeholder:this.lang==='fa'?'09xxxxxxxxx یا name@example.com':'09xxxxxxxxx or name@example.com'});
+    f1.appendChild(lphoneInp);
+    f1.appendChild(this.el('div',{class:'err', id:'err_lphone'},[this.t('err_required')]));
+    c.appendChild(f1);
+    c.appendChild(this.mkPasswordField('lpass','password', false));
+    c.appendChild(this.el('div',{style:'text-align:end;margin:-10px 0 16px'},[
+      this.el('button',{class:'btn-link', onclick:()=>this.render('forgotPhone')},[this.t('forgot_pass')])
+    ]));
+    const btn = this.el('button',{class:'btn btn-primary'},[this.t('login_btn')]);
+    btn.addEventListener('click', async ()=>{
+      const user = await this.storGet('user');
+      const identifier = document.getElementById('lphone').value.trim();
+      const pass = document.getElementById('lpass').value.trim();
+      let ok = true;
+      ok = this.validate('lphone', identifier.length>0) && ok;
+      if(!user){ this.validate('lphone', false); return; }
+      const matches = (user.phone && user.phone===identifier) || (user.email && user.email===identifier);
+      ok = this.validate('lpass', !!matches && user.password===pass) && ok;
+      if(!ok) return;
+      this.lang = user.lang; this.storSet('lang', user.lang); this.applyLang(); this.renderFooter();
+      document.getElementById('logoutBtn').classList.remove('hidden');
+      this.render('dashboard');
+    });
+    c.appendChild(btn);
+    c.appendChild(this.el('div',{class:'foot-link'},[
+      this.t('no_acc')+' ', this.el('button',{class:'btn-link', onclick:()=>this.render('register')},[this.t('start')])
+    ]));
+    c.appendChild(this.el('div',{class:'foot-link', style:'margin-top:8px'},[
+      this.el('button',{class:'btn-link', style:'color:var(--ink-60)', onclick:()=>this.render(this.state.isAdmin?'admin':'adminLogin')},[this.t('admin_link')])
+    ]));
+    s.appendChild(c); return s;
+  },
+
+  /* ---------- FORGOT PASSWORD ---------- */
+  screenForgotPhone(){
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card'});
+    c.appendChild(this.el('h1',{},[this.t('forgot_title')]));
+    c.appendChild(this.el('p',{class:'sub'},[this.lang==='fa'?'شماره تلفن یا ایمیل حساب خود را وارد کنید تا کد تایید ارسال شود.':'Enter your account phone or email to receive a verification code.']));
+    const f = this.el('div',{class:'field', id:'f_fpphone'});
+    f.appendChild(this.el('label',{},[this.lang==='fa'?'شماره تلفن یا ایمیل':'Phone or Email']));
+    const inp = this.el('input',{type:'text', id:'fpphone', dir:'ltr'});
+    f.appendChild(inp);
+    f.appendChild(this.el('div',{class:'err', id:'err_fpphone'},[this.t('forgot_notfound')]));
+    c.appendChild(f);
+    const btn = this.el('button',{class:'btn btn-primary'},[this.t('forgot_send')]);
+    btn.addEventListener('click', async ()=>{
+      const user = await this.storGet('user');
+      const identifier = inp.value.trim();
+      const matches = user && ((user.phone && user.phone===identifier) || (user.email && user.email===identifier));
+      if(!matches){ this.validate('fpphone', false); return; }
+      this.validate('fpphone', true);
+      this.state.forgotPhone = identifier;
+      this.state.otpPurpose = 'forgot';
+      this.state.otpChannel = user.otpChannel || 'sms';
+      this.state.otpDestination = (user.otpChannel==='email' && user.email) ? user.email : (user.phone || identifier);
+      this.state.otpCode = String(Math.floor(1000+Math.random()*9000));
+      if(this.state.otpChannel==='email') console.log('[MockEmailProvider] Reset OTP for', this.state.otpDestination, '=', this.state.otpCode);
+      else console.log('[MockSmsProvider] Reset OTP for', this.state.otpDestination, '=', this.state.otpCode);
+      this.render('otp');
+    });
+    c.appendChild(btn);
+    c.appendChild(this.el('div',{class:'foot-link'},[
+      this.el('button',{class:'btn-link', onclick:()=>this.render('login')},[this.lang==='fa'?'بازگشت به ورود':'Back to login'])
+    ]));
+    s.appendChild(c); return s;
+  },
+  screenForgotReset(){
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card'});
+    c.appendChild(this.el('h1',{},[this.t('new_pass_title')]));
+    c.appendChild(this.el('p',{class:'sub'},[this.t('new_pass_sub')]));
+    c.appendChild(this.mkPasswordField('newpass','new_pass', true));
+    const btn = this.el('button',{class:'btn btn-primary'},[this.t('reset_btn')]);
+    btn.addEventListener('click', async ()=>{
+      const pass = document.getElementById('newpass').value.trim();
+      if(!this.validate('newpass', pass.length>=6)) return;
+      const user = await this.storGet('user');
+      const identifier = this.state.forgotPhone;
+      const matches = user && ((user.phone && user.phone===identifier) || (user.email && user.email===identifier));
+      if(matches){ user.password = pass; await this.storSet('user', user); }
+      this.render('passChanged');
+      setTimeout(()=>this.render('login'), 1600);
+    });
+    c.appendChild(btn);
+    s.appendChild(c); return s;
+  },
+  screenPassChanged(){
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card center-card'});
+    c.appendChild(this.el('div',{class:'check-circle', html:ICON.check}));
+    c.appendChild(this.el('h1',{},[this.t('pass_changed_title')]));
+    c.appendChild(this.el('p',{class:'sub'},[this.t('pass_changed_sub')]));
+    s.appendChild(c); return s;
+  },
+
+  /* ---------- LOGOUT ---------- */
+  logout(){
+    document.getElementById('logoutBtn').classList.add('hidden');
+    this.state.isAdmin = false;
+    this.render('loggingOut');
+    setTimeout(()=>{ this.render('welcome'); }, 1600);
+  },
+  screenLoggingOut(){
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card center-card'});
+    c.appendChild(this.el('div',{class:'check-circle', html:ICON.check}));
+    c.appendChild(this.el('h1',{},[this.t('logging_out')]));
+    s.appendChild(c); return s;
+  },
+
+  /* ---------- DASHBOARD ---------- */
+  async screenDashboard(){
+    const user = await this.storGet('user') || {name:'—'};
+    const attempts = await this.storGet('attempts') || [];
+    const current = await this.storGet('attempt');
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card'});
+    c.appendChild(this.el('h1',{},[this.t('dash_title',{name:user.name})]));
+    c.appendChild(this.el('p',{class:'sub'},[this.t('dash_sub')]));
+
+    const done = attempts.filter(a=>a.status==='COMPLETED');
+    const grid = this.el('div',{class:'stat-grid'});
+    grid.appendChild(this.el('div',{class:'stat'},[this.el('div',{class:'num'},[String(attempts.length)]), this.el('div',{class:'lbl'},[this.t('tests_count')])]));
+    grid.appendChild(this.el('div',{class:'stat'},[this.el('div',{class:'num'},[String(done.length)]), this.el('div',{class:'lbl'},[this.t('completed')])]));
+    const lastType = done.length ? TYPE_INFO[done[done.length-1].primary].name[this.lang] : '—';
+    grid.appendChild(this.el('div',{class:'stat'},[this.el('div',{class:'num'},[lastType]), this.el('div',{class:'lbl'},[this.t('last_score')])]));
+    c.appendChild(grid);
+
+    if(current && current.status==='IN_PROGRESS'){
+      const pct = Math.round((Object.keys(current.answers).length/45)*100);
+      c.appendChild(this.el('div',{class:'progress-outer'},[this.el('div',{class:'progress-inner', style:`width:${pct}%`})]));
+      c.appendChild(this.el('p',{class:'sub', style:'margin-bottom:14px'},[`${Object.keys(current.answers).length} / 45`]));
+      c.appendChild(this.el('button',{class:'btn btn-primary', onclick:()=>this.resumeTest()},[this.t('continue_test')]));
+    } else {
+      c.appendChild(this.el('button',{class:'btn btn-primary', onclick:()=>this.render('testIntro')},[this.t('start_new')]));
+    }
+
+    if(attempts.length){
+      const hist = this.el('div',{style:'margin-top:22px'});
+      hist.appendChild(this.el('h2',{},[this.t('history')]));
+      attempts.slice().reverse().forEach(a=>{
+        const row = this.el('div',{class:'attempt-row'});
+        row.appendChild(this.el('span',{},[new Date(a.date).toLocaleDateString(this.lang==='fa'?'fa-IR':'en-US')]));
+        row.appendChild(this.el('span',{class:'badge '+(a.status==='COMPLETED'?'done':'progress')},[a.status==='COMPLETED'?this.t('completed'):'…']));
+        if(a.status==='COMPLETED'){
+          const b = this.el('button',{class:'btn-link', onclick:()=>this.render('result',a)},[this.t('view_result')]);
+          row.appendChild(b);
+        }
+        hist.appendChild(row);
+      });
+      c.appendChild(hist);
+    }
+    const delWrap = this.el('div',{style:'text-align:center;margin-top:28px'});
+    const delBtn = this.el('button',{class:'btn-link', style:'color:var(--danger);font-size:12px;text-decoration:underline'},[this.lang==='fa'?'حذف کامل حساب کاربری':'Permanently delete my account']);
+    delBtn.addEventListener('click', async ()=>{
+      const msg = this.lang==='fa'
+        ? 'حساب کاربری شما و همهٔ تست‌هایتان برای همیشه حذف می‌شود و قابل بازگشت نیست. مطمئن هستید؟'
+        : 'Your account and all your tests will be permanently deleted and cannot be undone. Are you sure?';
+      if(!confirm(msg)) return;
+      await this.storDelete('user'); await this.storDelete('attempts'); await this.storDelete('attempt');
+      document.getElementById('logoutBtn').classList.add('hidden');
+      this.render('welcome');
+    });
+    delWrap.appendChild(delBtn);
+    c.appendChild(delWrap);
+    s.appendChild(c); return s;
+  },
+
+  /* ---------- TEST INTRO ---------- */
+  screenTestIntro(){
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card'});
+    c.appendChild(this.el('h1',{},[this.t('intro_title')]));
+    c.appendChild(this.el('p',{class:'sub'},[this.t('intro_sub')]));
+    const list = this.el('div',{class:'step-list'});
+    [['intro_1t','intro_1d'],['intro_2t','intro_2d'],['intro_3t','intro_3d'],['intro_4t','intro_4d']].forEach(([a,b],i)=>{
+      list.appendChild(this.el('div',{class:'step'},[
+        this.el('div',{class:'num'},[String(i+1)]),
+        this.el('div',{class:'txt'},[this.el('b',{},[this.t(a)]), this.el('span',{},[this.t(b)])])
+      ]));
+    });
+    c.appendChild(list);
+    c.appendChild(this.el('button',{class:'btn btn-primary', onclick:()=>this.startTest()},[this.t('begin')]));
+    s.appendChild(c); return s;
+  },
+
+  async startTest(){
+    const attempt = { id:'att_'+Date.now(), status:'IN_PROGRESS', answers:{}, startedAt:Date.now() };
+    await this.storSet('attempt', attempt);
+    this.state.currentAttempt = attempt;
+    this.state.qIndex = 0;
+    this.render('question');
+  },
+  async resumeTest(){
+    const attempt = await this.storGet('attempt');
+    this.state.currentAttempt = attempt;
+    this.state.qIndex = Object.keys(attempt.answers).length;
+    this.render('question');
+  },
+
+  /* ---------- QUESTION ---------- */
+  screenQuestion(){
+    const idx = this.state.qIndex;
+    const q = QUESTIONS[idx];
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card'});
+
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const wrap = this.el('div',{class:'thread-wrap'});
+    const svg = document.createElementNS(svgNS,'svg'); svg.setAttribute('viewBox','0 0 400 34'); svg.setAttribute('preserveAspectRatio','none');
+    ['R','B','Y','W'].forEach((k,i)=>{
+      const y = 6 + i*7;
+      const bg = document.createElementNS(svgNS,'line');
+      bg.setAttribute('x1','0'); bg.setAttribute('x2','400'); bg.setAttribute('y1',y); bg.setAttribute('y2',y);
+      bg.style.stroke='var(--lav-200)'; bg.setAttribute('stroke-width','3'); bg.setAttribute('stroke-linecap','round');
+      svg.appendChild(bg);
+      const fg = document.createElementNS(svgNS,'line');
+      const pct = idx/45;
+      fg.setAttribute('x1','0'); fg.setAttribute('x2', String(400*pct)); fg.setAttribute('y1',y); fg.setAttribute('y2',y);
+      fg.style.stroke=`var(${DIMENSIONS[k].cssVar})`; fg.setAttribute('stroke-width','3'); fg.setAttribute('stroke-linecap','round');
+      svg.appendChild(fg);
+    });
+    wrap.appendChild(svg); c.appendChild(wrap);
+
+    const meta = this.el('div',{class:'q-meta'});
+    meta.appendChild(this.el('span',{class:'q-section-tag'},[q.section===1?this.t('section1_tag'):this.t('section2_tag')]));
+    meta.appendChild(this.el('span',{},[this.t('q_of',{n:idx+1})]));
+    c.appendChild(meta);
+
+    const answers = this.state.currentAttempt.answers;
+    const toggleBtn = this.el('button',{class:'qnav-toggle', onclick:()=>{ this.state.navOpen = !this.state.navOpen; this.render('question'); }},[
+      this.t('qlist')+' '+(this.state.navOpen? '▲':'▼')
+    ]);
+    c.appendChild(toggleBtn);
+    if(this.state.navOpen){
+      const panel = this.el('div',{class:'qnav-panel'});
+      const grid = this.el('div',{class:'qnav-grid'});
+      QUESTIONS.forEach((qq,qi)=>{
+        const isAnswered = answers[qq.id] !== undefined;
+        const cls = 'qnav-item'+(isAnswered?' answered':'')+(qi===idx?' current':'');
+        grid.appendChild(this.el('button',{class:cls, onclick:()=>{ this.state.navOpen=false; this.gotoQuestion(qi); }},[String(qi+1)]));
+      });
+      panel.appendChild(grid);
+      panel.appendChild(this.el('div',{class:'qnav-legend'},[
+        this.el('span',{},[this.el('i',{style:'background:var(--indigo)'}), this.t('qlist_answered')]),
+        this.el('span',{},[this.el('i',{style:'background:var(--white);border:1px solid var(--lav-200)'}), this.t('qlist_unanswered')]),
+      ]));
+      c.appendChild(panel);
+    }
+
+    if(q.stem) c.appendChild(this.el('div',{class:'q-stem'},[this.lang==='fa'?q.stem[0]:q.stem[1]]));
+    c.appendChild(this.el('div',{class:'q-title'},[
+      q.section===1 ? (this.lang==='fa'?'کدام کلمه به شما نزدیک‌تر است؟':'Which word feels closest to you?')
+                    : (this.lang==='fa'?'کدام گزینه به رفتار طبیعی شما نزدیک‌تر است؟':'Which option is closest to your natural behavior?')
+    ]));
+
+    const selected = answers[q.id];
+    q.opts.forEach((opt,oi)=>{
+      const [fa,en] = opt;
+      const cls = 'opt'+(selected===oi?' selected':'')+(this.state.pulseOption===oi?' pulse':'');
+      const btn = this.el('button',{class:cls},[
+        this.el('span',{class:'dot'}),
+        this.el('span',{},[ this.lang==='fa'? fa : en, ...(this.lang==='fa'? [this.el('span',{class:'en'},[' ('+en+')'])]:[]) ])
+      ]);
+      btn.addEventListener('click', ()=> this.selectOption(q.id, oi));
+      c.appendChild(btn);
+    });
+
+    const nav = this.el('div',{class:'nav-row'});
+    if(idx>0) nav.appendChild(this.el('button',{class:'btn btn-ghost', onclick:()=>this.gotoQuestion(idx-1)},[this.t('back')]));
+    if(nav.children.length) c.appendChild(nav);
+    s.appendChild(c); return s;
+  },
+
+  selectOption(qId, optIndex){
+    const attempt = this.state.currentAttempt;
+    attempt.answers[qId] = optIndex;
+    this.storSet('attempt', attempt);
+    this.state.pulseOption = optIndex;
+    this.render('question');
+    setTimeout(()=>{
+      this.state.pulseOption = null;
+      if(this.state.qIndex === 29){ this.render('sectionTransition'); }
+      else if(this.state.qIndex === 44){ this.finishTest(); }
+      else { this.state.qIndex++; this.render('question'); }
+    }, 480);
+  },
+  gotoQuestion(i){ this.state.qIndex = i; this.render('question'); },
+
+  screenSectionTransition(){
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card center-card'});
+    c.appendChild(this.el('div',{class:'orb'}));
+    c.appendChild(this.el('h1',{},[this.t('sec_trans_title')]));
+    c.appendChild(this.el('p',{class:'sub'},[this.t('sec_trans_sub')]));
+    c.appendChild(this.el('button',{class:'btn btn-primary', onclick:()=>{ this.state.qIndex=30; this.render('question'); }},[this.t('sec_trans_btn')]));
+    s.appendChild(c); return s;
+  },
+
+  async finishTest(){
+    this.render('processing');
+    const attempt = this.state.currentAttempt;
+    await new Promise(r=>setTimeout(r, 1400));
+    const result = this.calculatePersonalityResult(attempt);
+    attempt.status = 'COMPLETED'; attempt.result = result; attempt.date = Date.now();
+    await this.storDelete('attempt').catch(()=>{});
+    const attempts = await this.storGet('attempts') || [];
+    attempts.push({ id:attempt.id, date:attempt.date, status:'COMPLETED', primary:result.primary, secondary:result.secondary, scores:result.percentages, answers:attempt.answers });
+    await this.storSet('attempts', attempts);
+    this.render('result', attempts[attempts.length-1]);
+  },
+
+  screenProcessing(){
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card center-card'});
+    c.appendChild(this.el('div',{class:'orb'}));
+    c.appendChild(this.el('h1',{},[this.t('processing_title')]));
+    c.appendChild(this.el('p',{class:'sub'},[this.t('processing_sub')]));
+    s.appendChild(c); return s;
+  },
+
+  /* ---------- SCORING ENGINE ----------
+     calculatePersonalityResult(attempt): independent, testable service.
+     1. reads answers -> 2. maps each chosen option to its color/dimension via
+     QUESTIONS config -> 3. sums raw scores per dimension -> 4. converts to
+     percentages -> 5. determines primary/secondary -> 6. returns summary.
+     Ties: if two dimensions are close (within 2 raw points) both are
+     reported as primary/secondary. */
+  calculatePersonalityResult(attempt){
+    const raw = {R:0,B:0,Y:0,W:0};
+    QUESTIONS.forEach(q=>{
+      const ans = attempt.answers[q.id];
+      if(ans===undefined) return;
+      raw[q.opts[ans][2]]++;
+    });
+    const total = Object.values(raw).reduce((a,b)=>a+b,0) || 1;
+    const percentages = {};
+    Object.keys(raw).forEach(k=> percentages[k] = Math.round((raw[k]/total)*100));
+    const order = ['R','B','Y','W'];
+    const sorted = order.slice().sort((a,b)=> raw[b]-raw[a]);
+    return { raw, percentages, primary:sorted[0], secondary:sorted[1], scoringVersion:'v1-heuristic-colorcode' };
+  },
+
+  /* ---------- RESULT ---------- */
+  screenResult(data){
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card', id:'resultCard'});
+    const hero = this.el('div',{class:'result-hero'});
+    hero.appendChild(this.el('div',{class:'type-pill'},[this.t('result_ready')]));
+    hero.appendChild(this.el('div',{class:'type-name'},[TYPE_INFO[data.primary].name[this.lang]]));
+    hero.appendChild(this.el('p',{class:'sub', style:'margin:10px 0 0'},[TYPE_INFO[data.primary].desc[this.lang]]));
+    c.appendChild(hero);
+
+    const bars = this.el('div',{class:'dim-bars'});
+    ['R','B','Y','W'].forEach(k=>{
+      const pct = data.scores[k];
+      bars.appendChild(this.el('div',{class:'dim-row'},[
+        this.el('span',{class:'dim-label', style:`color:var(${DIMENSIONS[k].cssVar})`},[DIMENSIONS[k][this.lang]]),
+        this.el('div',{class:'dim-track'},[this.el('div',{class:'dim-fill', style:`width:${pct}%;background:var(${DIMENSIONS[k].cssVar})`})]),
+        this.el('span',{class:'dim-pct'},[pct+'%'])
+      ]));
+    });
+    c.appendChild(bars);
+
+    if(data.secondary && data.secondary!==data.primary){
+      c.appendChild(this.el('p',{class:'sub'},[`${this.t('result_secondary')}: ${TYPE_INFO[data.secondary].name[this.lang]}`]));
+    }
+
+    const grid = this.el('div',{class:'grid2'});
+    const mkBox = (titleKey, items)=>{
+      const b = this.el('div',{class:'info-box'});
+      b.appendChild(this.el('h3',{},[this.t(titleKey)]));
+      const ul = this.el('ul',{});
+      items.forEach(it=> ul.appendChild(this.el('li',{},[it])));
+      b.appendChild(ul); return b;
+    };
+    grid.appendChild(mkBox('strengths', TYPE_INFO[data.primary].strengths[this.lang]));
+    grid.appendChild(mkBox('challenges', TYPE_INFO[data.primary].challenges[this.lang]));
+    c.appendChild(grid);
+
+    const grid2 = this.el('div',{class:'grid2'});
+    grid2.appendChild(mkBox('work', [TYPE_INFO[data.primary].work[this.lang]]));
+    grid2.appendChild(mkBox('comm', [TYPE_INFO[data.primary].comm[this.lang]]));
+    c.appendChild(grid2);
+
+    c.appendChild(this.el('div',{class:'disclaimer'},[this.t('disclaimer')]));
+
+    const actions = this.el('div',{class:'result-actions'});
+    const dlBtn = this.el('button',{class:'btn btn-ghost', html:ICON.download+' <span>'+this.t('download_pdf')+'</span>'});
+    dlBtn.addEventListener('click', ()=>this.downloadResultPDF(data));
+    const shBtn = this.el('button',{class:'btn btn-ghost', html:ICON.share+' <span>'+this.t('share_result')+'</span>'});
+    shBtn.addEventListener('click', ()=>this.shareResultImage());
+    actions.appendChild(dlBtn); actions.appendChild(shBtn);
+    c.appendChild(actions);
+
+    c.appendChild(this.el('button',{class:'btn btn-primary', style:'margin-top:14px', onclick:()=>this.render('dashboard')},[this.t('back_dash')]));
+    c.appendChild(this.el('button',{class:'btn btn-ghost', style:'margin-top:10px', onclick:()=>this.render('testIntro')},[this.t('retake')]));
+    s.appendChild(c); return s;
+  },
+
+  /* Note: jsPDF's built-in fonts don't support Persian glyphs, so the PDF
+     export uses English labels regardless of UI language to avoid garbled text. */
+  downloadResultPDF(data){
+    if(!window.jspdf){ alert(this.lang==='fa'?'کتابخانه PDF بارگذاری نشد. اتصال اینترنت را بررسی کنید.':'PDF library failed to load. Check your internet connection.'); return; }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFillColor(46,42,99); doc.rect(0,0,210,32,'F');
+    doc.setTextColor(255,255,255); doc.setFontSize(20); doc.setFont('helvetica','bold');
+    doc.text('Self Insight — Personality Result', 15, 18);
+    doc.setFontSize(11); doc.setFont('helvetica','normal');
+    doc.text(new Date(data.date).toLocaleDateString('en-US'), 15, 26);
+
+    doc.setTextColor(30,30,50); doc.setFontSize(16); doc.setFont('helvetica','bold');
+    doc.text('Primary type: ' + TYPE_INFO[data.primary].name.en, 15, 46);
+    if(data.secondary && data.secondary!==data.primary){
+      doc.setFontSize(11); doc.setFont('helvetica','normal');
+      doc.text('Secondary type: ' + TYPE_INFO[data.secondary].name.en, 15, 54);
+    }
+    doc.setFontSize(10.5); doc.setTextColor(90,90,110);
+    const descLines = doc.splitTextToSize(TYPE_INFO[data.primary].desc.en, 180);
+    doc.text(descLines, 15, 64);
+
+    let y = 64 + descLines.length*5 + 10;
+    doc.setFontSize(12); doc.setTextColor(30,30,50); doc.setFont('helvetica','bold');
+    doc.text('Dimension breakdown', 15, y); y += 8;
+    const dimColors = {R:[196,72,63],B:[46,42,99],Y:[201,161,94],W:[47,143,130]};
+    ['R','B','Y','W'].forEach(k=>{
+      doc.setFontSize(10); doc.setFont('helvetica','normal'); doc.setTextColor(60,60,80);
+      doc.text(DIMENSIONS[k].en, 15, y+4);
+      doc.setFillColor(228,224,246); doc.roundedRect(65, y, 100, 5, 2, 2, 'F');
+      const c = dimColors[k];
+      doc.setFillColor(c[0],c[1],c[2]);
+      doc.roundedRect(65, y, Math.max(2,data.scores[k]), 5, 2, 2, 'F');
+      doc.text(data.scores[k]+'%', 170, y+4);
+      y += 11;
+    });
+
+    y += 6;
+    doc.setFontSize(9.5); doc.setTextColor(120,120,140);
+    const disc = doc.splitTextToSize('This is a self-insight tool, not a substitute for psychological or medical diagnosis.', 180);
+    doc.text(disc, 15, y);
+    doc.text('Designed & developed by Ranova team — 2026', 15, 285);
+    doc.save('personality-result.pdf');
+  },
+
+  shareResultImage(){
+    if(!window.html2canvas){ alert(this.lang==='fa'?'کتابخانه تصویرسازی بارگذاری نشد. اتصال اینترنت را بررسی کنید.':'Image library failed to load. Check your internet connection.'); return; }
+    const node = document.getElementById('resultCard');
+    html2canvas(node, {backgroundColor:this.theme==='dark'?'#161A3E':'#ffffff', scale:2}).then(canvas=>{
+      canvas.toBlob(blob=>{
+        const file = new File([blob], 'personality-result.png', {type:'image/png'});
+        if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+          navigator.share({files:[file], title:'Personality Result'}).catch(()=>{});
+        } else {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a'); a.href=url; a.download='personality-result.png'; document.body.appendChild(a); a.click(); a.remove();
+          URL.revokeObjectURL(url);
+          this.showDevNote(this.t('share_fallback'));
+        }
+      });
+    });
+  },
+
+  /* ---------- ADMIN LOGIN (separate identity from regular users) ---------- */
+  screenAdminLogin(){
+    const s = this.el('div',{class:'screen'});
+    const c = this.el('div',{class:'card center-card'});
+    c.appendChild(this.el('div',{style:'width:56px;height:56px;border-radius:16px;background:var(--lav-100);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--indigo-2)', html:ICON.shield}));
+    c.appendChild(this.el('h1',{},[this.t('admin_login_title')]));
+    c.appendChild(this.el('p',{class:'sub'},[this.t('admin_login_sub')]));
+    const f1 = this.el('div',{class:'field', id:'f_ausername', style:'text-align:start'});
+    f1.appendChild(this.el('label',{},[this.t('admin_username')]));
+    f1.appendChild(this.el('input',{type:'text', id:'ausername'}));
+    f1.appendChild(this.el('div',{class:'err', id:'err_ausername'},[this.t('admin_err')]));
+    c.appendChild(f1);
+    const pf = this.mkPasswordField('apass','password', false);
+    pf.style.textAlign = 'start';
+    c.appendChild(pf);
+    c.appendChild(this.el('div',{class:'otp-hint'},[this.t('admin_dev_hint')]));
+    const btn = this.el('button',{class:'btn btn-primary'},[this.t('admin_login_btn')]);
+    btn.addEventListener('click', async ()=>{
+      const acc = await this.storGet('adminAccount');
+      const u = document.getElementById('ausername').value.trim();
+      const p = document.getElementById('apass').value.trim();
+      if(acc && acc.username===u && acc.password===p){
+        this.validate('ausername', true); this.validate('apass', true);
+        this.state.isAdmin = true;
+        this.render('admin');
+      } else {
+        this.validate('ausername', false); this.validate('apass', false);
+      }
+    });
+    c.appendChild(btn);
+    c.appendChild(this.el('button',{class:'btn btn-ghost', style:'margin-top:10px', onclick:()=>this.render('welcome')},[this.lang==='fa'?'بازگشت':'Back']));
+    s.appendChild(c); return s;
+  },
+
+  /* ---------- ADMIN PANEL ---------- */
+  async screenAdmin(){
+    const user = await this.storGet('user');
+    const attempts = await this.storGet('attempts') || [];
+    const inProgressAttempt = await this.storGet('attempt');
+    const hasInProgress = inProgressAttempt && inProgressAttempt.status === 'IN_PROGRESS';
+    const s = this.el('div',{class:'screen wide'});
+    const c = this.el('div',{class:'card'});
+    const headRow = this.el('div',{style:'display:flex;justify-content:space-between;align-items:flex-start;gap:12px'},[
+      this.el('div',{},[this.el('h1',{},[this.t('admin_title')]), this.el('p',{class:'sub'},[this.t('admin_sub')])]),
+      this.el('button',{class:'btn-link', onclick:()=>{ this.state.isAdmin=false; this.render('welcome'); }},[this.t('admin_logout')])
+    ]);
+    c.appendChild(headRow);
+
+    const done = attempts.filter(a=>a.status==='COMPLETED');
+    const totalAttempts = attempts.length + (hasInProgress?1:0);
+    const grid = this.el('div',{class:'admin-grid'});
+    grid.appendChild(this.el('div',{class:'stat'},[this.el('div',{class:'num'},[user?'1':'0']), this.el('div',{class:'lbl'},[this.t('admin_users')])]));
+    grid.appendChild(this.el('div',{class:'stat'},[this.el('div',{class:'num'},[String(totalAttempts)]), this.el('div',{class:'lbl'},[this.t('admin_attempts')])]));
+    grid.appendChild(this.el('div',{class:'stat'},[this.el('div',{class:'num'},[String(done.length)]), this.el('div',{class:'lbl'},[this.t('admin_completed')])]));
+    grid.appendChild(this.el('div',{class:'stat'},[this.el('div',{class:'num'},[String(hasInProgress?1:0)]), this.el('div',{class:'lbl'},[this.t('admin_inprog')])]));
+    c.appendChild(grid);
+
+    c.appendChild(this.el('h2',{html:ICON.users},[this.t('admin_users')]));
+    const usersToggle = this.el('button',{class:'chip-btn'+(this.state.adminUsersOpen?' active':''), style:'margin-bottom:14px'},[
+      this.state.adminUsersOpen ? this.t('admin_hide_users') : this.t('admin_show_users')
+    ]);
+    usersToggle.addEventListener('click', ()=>{ this.state.adminUsersOpen = !this.state.adminUsersOpen; this.render('admin'); });
+    c.appendChild(usersToggle);
+
+    if(this.state.adminUsersOpen){
+      const usersList = user ? [user] : [];
+      if(!usersList.length){
+        c.appendChild(this.el('p',{class:'sub'},[this.t('no_history')]));
+      } else {
+        usersList.forEach((u, ui)=>{
+          const isOpen = this.state.adminExpandedUser === ui;
+          const card = this.el('div',{class:'user-card'});
+          const head = this.el('div',{class:'user-card-head'},[
+            this.el('div',{class:'name'},[ this.el('span',{class:'avatar'},[u.fname.charAt(0)]), u.name ]),
+          ]);
+          const nameBtn = head.firstChild;
+          nameBtn.style.cursor = 'pointer';
+          nameBtn.addEventListener('click', ()=>{ this.state.adminExpandedUser = isOpen ? null : ui; this.render('admin'); });
+          const actionsWrap = this.el('div',{style:'display:flex;align-items:center;gap:8px'});
+          const delUserBtn = this.el('button',{class:'btn-link', style:'color:var(--danger);font-size:12px'},[this.lang==='fa'?'حذف کاربر':'Delete user']);
+          delUserBtn.addEventListener('click', async (e)=>{
+            e.stopPropagation();
+            const msg = this.lang==='fa' ? `کاربر «${u.name}» و همهٔ تست‌های او برای همیشه حذف شود؟` : `Permanently delete user "${u.name}" and all their tests?`;
+            if(!confirm(msg)) return;
+            await this.storDelete('user'); await this.storDelete('attempts'); await this.storDelete('attempt');
+            this.state.adminExpandedUser = null;
+            this.render('admin');
+          });
+          const chevron = this.el('span',{class:'chevron'+(isOpen?' open':''), html:'<svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>', style:'cursor:pointer'});
+          chevron.addEventListener('click', ()=>{ this.state.adminExpandedUser = isOpen ? null : ui; this.render('admin'); });
+          actionsWrap.appendChild(delUserBtn); actionsWrap.appendChild(chevron);
+          head.appendChild(actionsWrap);
+          card.appendChild(head);
+          if(isOpen){
+            const body = this.el('div',{class:'user-card-body'});
+            const uRow = (labelKey, val)=> this.el('div',{style:'display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid var(--lav-200);font-size:13px'},[
+              this.el('span',{style:'color:var(--ink-60)'},[this.t(labelKey)]), this.el('span',{style:'font-weight:600'},[String(val)])
+            ]);
+            if(u.phone) body.appendChild(uRow('phone', u.phone));
+            if(u.email) body.appendChild(uRow('email', u.email));
+            body.appendChild(uRow('age', u.age));
+            body.appendChild(uRow('gender', u.gender==='male'?this.t('male'):this.t('female')));
+            body.appendChild(uRow('lang', u.lang==='fa'?'فارسی':'English'));
+
+            body.appendChild(this.el('h3',{style:'margin:16px 0 8px;font-size:13px;color:var(--indigo-2)'},[this.t('admin_table_title')]));
+            if(!attempts.length && !hasInProgress){
+              body.appendChild(this.el('p',{class:'sub', style:'margin:0'},[this.t('no_history')]));
+            } else {
+              const tableScroll = this.el('div',{class:'table-scroll'});
+              const table = this.el('table',{});
+              table.appendChild(this.el('tr',{},[
+                this.el('th',{},[this.t('col_date')]), this.el('th',{},[this.t('col_status')]), this.el('th',{},[this.t('col_type')]),
+                this.el('th',{},['R']), this.el('th',{},['B']), this.el('th',{},['Y']), this.el('th',{},['W']), this.el('th',{},['#']), this.el('th',{},[''])
+              ]));
+              const mkDeleteBtn = (onClick)=>{
+                const b = this.el('button',{style:'color:var(--danger);background:none;border:none;cursor:pointer;font-size:14px'},['🗑']);
+                b.addEventListener('click', onClick);
+                return b;
+              };
+              if(hasInProgress){
+                table.appendChild(this.el('tr',{},[
+                  this.el('td',{},[new Date(inProgressAttempt.startedAt).toLocaleString(this.lang==='fa'?'fa-IR':'en-US')]),
+                  this.el('td',{},['IN_PROGRESS']),
+                  this.el('td',{},['—']), this.el('td',{},['—']), this.el('td',{},['—']), this.el('td',{},['—']), this.el('td',{},['—']),
+                  this.el('td',{},[String(Object.keys(inProgressAttempt.answers||{}).length)+'/45']),
+                  this.el('td',{},[mkDeleteBtn(async ()=>{
+                    const msg = this.lang==='fa' ? 'این تست ناتمام برای همیشه حذف شود؟' : 'Permanently delete this unfinished test?';
+                    if(!confirm(msg)) return;
+                    await this.storDelete('attempt');
+                    this.render('admin');
+                  })])
+                ]));
+              }
+              attempts.slice().reverse().forEach(a=>{
+                const sc = a.scores || {};
+                table.appendChild(this.el('tr',{},[
+                  this.el('td',{},[new Date(a.date).toLocaleString(this.lang==='fa'?'fa-IR':'en-US')]),
+                  this.el('td',{},[a.status]),
+                  this.el('td',{},[a.primary?TYPE_INFO[a.primary].name[this.lang]:'—']),
+                  this.el('td',{},[sc.R!==undefined? sc.R+'%':'—']),
+                  this.el('td',{},[sc.B!==undefined? sc.B+'%':'—']),
+                  this.el('td',{},[sc.Y!==undefined? sc.Y+'%':'—']),
+                  this.el('td',{},[sc.W!==undefined? sc.W+'%':'—']),
+                  this.el('td',{},[String(Object.keys(a.answers||{}).length)+'/45']),
+                  this.el('td',{},[mkDeleteBtn(async ()=>{
+                    const msg = this.lang==='fa' ? 'نتیجهٔ این تست برای همیشه حذف شود؟' : 'Permanently delete this test result?';
+                    if(!confirm(msg)) return;
+                    const updated = attempts.filter(x=>x.id!==a.id);
+                    await this.storSet('attempts', updated);
+                    this.render('admin');
+                  })])
+                ]));
+              });
+              tableScroll.appendChild(table);
+              body.appendChild(tableScroll);
+            }
+            card.appendChild(body);
+          }
+          c.appendChild(card);
+        });
+      }
+    }
+    c.appendChild(this.el('button',{class:'btn btn-ghost', style:'margin-top:18px', onclick:()=>this.render('welcome')},[this.lang==='fa'?'بازگشت به سایت':'Back to site']));
+    s.appendChild(c); return s;
+  }
+};
+
+App.init();
+</script>
+</body>
+</html>
